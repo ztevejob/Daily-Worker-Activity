@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Ceklis Daily Worker & Dashboard - Digimap</title>
+    <title>Form Ceklis Daily Worker & Dashboard Mirror - Digimap</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -243,9 +243,10 @@
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-6 gap-4">
                 <div>
                     <span class="text-xs font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Executive Summary</span>
-                    <h2 class="text-2xl font-bold mt-2 text-white">Dashboard Report Management</h2>
+                    <h2 class="text-2xl font-bold mt-2 text-white">Dashboard Report Management (Live Mirror)</h2>
                 </div>
-                <div class="flex gap-3">
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="fetchSheetData()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-lg flex items-center gap-2">🔄 Refresh Data</button>
                     <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-lg flex items-center gap-2">📊 Export Excel</button>
                     <button onclick="exportToPDF()" class="bg-rose-600 hover:bg-rose-500 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-lg flex items-center gap-2">📄 Export PDF</button>
                 </div>
@@ -254,7 +255,7 @@
             <!-- Bagian Summary Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-5">
-                    <p class="text-sm text-slate-400">Total Poin Submit</p>
+                    <p class="text-sm text-slate-400">Total Data di Sheet</p>
                     <h3 id="statTotal" class="text-3xl font-bold text-white mt-1">0</h3>
                 </div>
                 <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-5">
@@ -262,15 +263,15 @@
                     <h3 id="statSudah" class="text-3xl font-bold text-emerald-400 mt-1">0</h3>
                 </div>
                 <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-5">
-                    <p class="text-sm text-slate-400">Progres Kelulusan</p>
-                    <h3 id="statPersen" class="text-3xl font-bold text-indigo-400 mt-1">100%</h3>
+                    <p class="text-sm text-slate-400">Progres Sinkronisasi</p>
+                    <h3 id="statPersen" class="text-3xl font-bold text-indigo-400 mt-1">Live</h3>
                 </div>
             </div>
 
             <!-- Area Container untuk Export PDF -->
             <div id="pdfContainer" class="space-y-6">
                 <div class="bg-slate-800/20 border border-slate-800 rounded-xl p-4">
-                    <h3 class="text-lg font-semibold text-indigo-300 mb-3">Tabel Riwayat Report Management</h3>
+                    <h3 class="text-lg font-semibold text-indigo-300 mb-3">Tabel Mirror Google Sheet</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-sm" id="reportTable">
                             <thead>
@@ -286,7 +287,7 @@
                                 </tr>
                             </thead>
                             <tbody id="reportTableBody" class="divide-y divide-slate-800 text-slate-300">
-                                <tr><td colspan="8" class="p-4 text-center text-slate-500">Belum ada data submit.</td></tr>
+                                <tr><td colspan="8" class="p-4 text-center text-slate-500">Klik tombol "Refresh Data" untuk memuat data dari Google Sheet.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -299,7 +300,7 @@
     <!-- Script Utama -->
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzDl9JUW-vnFfqUneToMTu3nVrGpPLiC7NqrGlVziSZU9Zc8MA0lmD67DJW9ocL24izBg/exec';
-        let localReportData = JSON.parse(localStorage.getItem('dw_reports_v2') || '[]');
+        let sheetData = [];
 
         function switchTab(tabId) {
             const formTab = document.getElementById('formTab');
@@ -318,8 +319,27 @@
                 btnDashboard.className = "px-6 py-2.5 rounded-xl font-semibold text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30";
                 btnForm.className = "px-6 py-2.5 rounded-xl font-semibold text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800";
                 
-                renderDashboard();
+                // Otomatis tarik data saat tab dashboard dibuka
+                fetchSheetData();
             }
+        }
+
+        // Fungsi Menarik Data Aktual dari Google Sheet (Mirror)
+        function fetchSheetData() {
+            const tbody = document.getElementById('reportTableBody');
+            tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-indigo-400 animate-pulse">Menyelaraskan data dengan Google Sheet...</td></tr>`;
+
+            // Menggunakan teknik JSONP / mode cors untuk ambil data doGet
+            fetch(scriptURL)
+                .then(response => response.json())
+                .then(data => {
+                    sheetData = data;
+                    renderDashboard();
+                })
+                .catch(error => {
+                    console.error('Error fetching sheet data:', error);
+                    tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-400">Gagal memuat data. Pastikan Apps Script sudah di-deploy sebagai 'New Version'.</td></tr>`;
+                });
         }
 
         const form = document.getElementById('dwForm');
@@ -331,7 +351,6 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = 'Mengirim data...';
 
-            const timestamp = new Date().toLocaleString('id-ID');
             const nama = document.getElementById('nama').value;
             const tanggal = document.getElementById('tanggal').value;
             const store = document.getElementById('store').value;
@@ -347,10 +366,6 @@
                     const komentarInput = row.querySelector('.komentar-input');
 
                     items.push({
-                        timestamp: timestamp,
-                        nama: nama,
-                        tanggal: tanggal,
-                        store: store,
                         kategori: kategori,
                         detail: detail,
                         ceklis: 'Sudah',
@@ -373,7 +388,6 @@
                 items: items
             };
 
-            // Kirim ke Google Sheet
             fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -381,14 +395,13 @@
                 body: JSON.stringify(payload)
             })
             .then(() => {
-                // Simpan ke riwayat lokal dashboard
-                localReportData.push(...items);
-                localStorage.setItem('dw_reports_v2', JSON.stringify(localReportData));
-
-                alert('Form Ceklis Daily Worker berhasil disubmit dan tersimpan ke Google Sheet!');
+                alert('Form Ceklis Daily Worker berhasil disubmit ke Google Sheet!');
                 form.reset();
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Submit Penilaian';
+                
+                // Pindah otomatis ke tab dashboard untuk melihat hasil mirror
+                switchTab('dashboardTab');
             })
             .catch(error => {
                 console.error('Error!', error.message);
@@ -402,12 +415,12 @@
             const tbody = document.getElementById('reportTableBody');
             tbody.innerHTML = '';
 
-            let total = localReportData.length;
+            let total = sheetData.length;
 
             if (total === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-500">Belum ada data submit.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-500">Google Sheet kosong atau data tidak ditemukan.</td></tr>`;
             } else {
-                localReportData.forEach(item => {
+                sheetData.forEach(item => {
                     const tr = document.createElement('tr');
                     tr.className = "border-b border-slate-800/60 hover:bg-slate-800/30";
                     tr.innerHTML = `
@@ -426,29 +439,28 @@
 
             document.getElementById('statTotal').innerText = total;
             document.getElementById('statSudah').innerText = total;
-            document.getElementById('statPersen').innerText = '100%';
         }
 
         function exportToExcel() {
-            if (localReportData.length === 0) {
+            if (sheetData.length === 0) {
                 alert('Belum ada data untuk diexport!');
                 return;
             }
-            const worksheet = XLSX.utils.json_to_sheet(localReportData);
+            const worksheet = XLSX.utils.json_to_sheet(sheetData);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Ceklis DW");
-            XLSX.writeFile(workbook, "Report_Ceklis_Daily_Worker.xlsx");
+            XLSX.writeFile(workbook, "Report_Ceklis_Daily_Worker_Mirror.xlsx");
         }
 
         function exportToPDF() {
-            if (localReportData.length === 0) {
+            if (sheetData.length === 0) {
                 alert('Belum ada data untuk diexport!');
                 return;
             }
             const element = document.getElementById('pdfContainer');
             const options = {
                 margin:       10,
-                filename:     'Report_Ceklis_Daily_Worker.pdf',
+                filename:     'Report_Ceklis_Daily_Worker_Mirror.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
