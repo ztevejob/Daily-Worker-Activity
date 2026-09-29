@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Training dan Roleplay Daily Worker & Dashboard - Digimap</title>
+    <title>Form Ceklis Daily Worker & Dashboard - Digimap</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- SheetJS & html2pdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -14,151 +19,72 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen py-4 px-3 sm:py-10 sm:px-6 lg:px-8">
+<body class="bg-slate-950 text-slate-100 dark:bg-slate-950 dark:text-slate-100 bg-slate-50 text-slate-900 min-h-screen py-4 px-3 sm:py-8 sm:px-6 transition-colors duration-200">
 
     <div class="max-w-6xl mx-auto space-y-4 sm:space-y-6">
         
-        <!-- Navigasi Menu Tab (Mobile Optimized) -->
+        <!-- HEADER TOP: Waktu, Indikator Sync & Toggle Theme -->
+        <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-900/60 dark:bg-slate-900/60 bg-white border border-slate-800 rounded-2xl p-3 sm:p-4 gap-3 shadow-lg backdrop-blur-xl">
+            <!-- Realtime Clock & Calendar -->
+            <div class="flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-300 dark:text-slate-300 text-slate-700">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 absolute"></span>
+                <span id="liveClock" class="ml-2 font-semibold text-emerald-400">Memuat waktu...</span>
+            </div>
+
+            <!-- Kontrol Tema & Bahasa -->
+            <div class="flex items-center gap-3">
+                <select id="langSelect" onchange="changeLanguage()" class="bg-slate-950 dark:bg-slate-950 bg-slate-100 border border-slate-700 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-200 focus:outline-none">
+                    <option value="id">Bahasa Indonesia</option>
+                    <option value="en">English</option>
+                </select>
+                <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-800/60 dark:bg-slate-800/60 bg-slate-200 border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white transition">
+                    🌓 <span id="themeLabel">Mode</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigasi Menu Tab -->
         <div class="flex justify-center gap-2 sm:gap-4 border-b border-slate-800 pb-4">
             <button onclick="switchTab('formTab')" id="btnFormTab" class="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center">Form Ceklis</button>
             <button onclick="switchTab('dashboardTab')" id="btnDashboardTab" class="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800 text-center">Dashboard Report</button>
         </div>
 
         <!-- 1. TAB FORM CEKLIS -->
-        <div id="formTab" class="bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10">
+        <div id="formTab" class="bg-slate-900/90 dark:bg-slate-900/90 bg-white border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10">
             <div class="text-center border-b border-slate-800 pb-4 sm:pb-6 mb-6 sm:mb-8">
                 <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Digimap Retail Training</span>
-                <h1 class="text-xl sm:text-3xl font-bold mt-2 sm:mt-3 text-white tracking-tight">FORM</h1>
+                <h1 class="text-xl sm:text-3xl font-bold mt-2 sm:mt-3 dark:text-white text-slate-900 tracking-tight" data-i18n="formTitle">FORM CEKLIS DAILY WORKER</h1>
             </div>
 
             <form id="dwForm" class="space-y-6 sm:space-y-8">
                 <!-- A. DATA STAFF -->
-                <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-4 sm:p-6 space-y-4">
+                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-4 sm:p-6 space-y-4">
                     <h2 class="text-base sm:text-lg font-semibold text-indigo-400 border-b border-slate-800 pb-2">A. DATA STAFF</h2>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs sm:text-sm font-medium text-slate-300 mb-1">Nama Staff</label>
-                            <input type="text" id="nama" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <label class="block text-xs sm:text-sm font-medium dark:text-slate-300 text-slate-700 mb-1" data-i18n="lblName">Nama Staff</label>
+                            <input type="text" id="nama" required class="w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-100 dark:text-slate-100 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs sm:text-sm font-medium text-slate-300 mb-1">Tanggal Pelatihan</label>
-                            <input type="date" id="tanggal" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <label class="block text-xs sm:text-sm font-medium dark:text-slate-300 text-slate-700 mb-1" data-i18n="lblDate">Tanggal Pelatihan</label>
+                            <input type="date" id="tanggal" required class="w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-100 dark:text-slate-100 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs sm:text-sm font-medium text-slate-300 mb-1">Store / Lokasi</label>
-                        <select id="store" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                            <option value="">-- Pilih Store Digimap --</option>
-                            <option value="M116 Digimap Beachwalk Bali">M116 Digimap Beachwalk Bali</option>
-                            <option value="M118 Digimap Pondok Indah Mall 3">M118 Digimap Pondok Indah Mall 3</option>
-                            <option value="M119 Digimap Centrepoint Mall Medan">M119 Digimap Centrepoint Mall Medan</option>
-                            <option value="M120 Digimap Sun Plaza Medan">M120 Digimap Sun Plaza Medan</option>
-                            <option value="M121 Digimap Tunjungan Plaza 3 Surabaya">M121 Digimap Tunjungan Plaza 3 Surabaya</option>
-                            <option value="M122 Digimap Galaxy Mall Surabaya">M122 Digimap Galaxy Mall Surabaya</option>
-                            <option value="M123 Digimap Mall Bali Galeria">M123 Digimap Mall Bali Galeria</option>
-                            <option value="M124 Digimap Pacific Place">M124 Digimap Pacific Place</option>
-                            <option value="M125 Digimap Supermall Karawaci">M125 Digimap Supermall Karawaci</option>
-                            <option value="M126 Digimap Ciputra World Surabaya">M126 Digimap Ciputra World Surabaya</option>
-                            <option value="M127 Digimap Lotte Shopping Avenue">M127 Digimap Lotte Shopping Avenue</option>
-                            <option value="M128 Digimap Emporium Mall Pluit">M128 Digimap Emporium Mall Pluit</option>
-                            <option value="M129 Digimap Mall Puri Indah">M129 Digimap Mall Puri Indah</option>
-                            <option value="M130 Digimap Sunset Road Bali">M130 Digimap Sunset Road Bali</option>
-                            <option value="M131 Digimap Grand Indonesia">M131 Digimap Grand Indonesia</option>
-                            <option value="M132 Digimap Plaza Senayan">M132 Digimap Plaza Senayan</option>
-                            <option value="M133 Digimap Trans Studio Mall Bandung">M133 Digimap Trans Studio Mall Bandung</option>
-                            <option value="M201 Digimap Trans Studio Mall Cibubur">M201 Digimap Trans Studio Mall Cibubur</option>
-                            <option value="M203 Digimap AEON Mall BSD">M203 Digimap AEON Mall BSD</option>
-                            <option value="M205 Digimap Paskal 23 Bandung">M205 Digimap Paskal 23 Bandung</option>
-                            <option value="M206 Digimap Pakuwon Mall Surabaya">M206 Digimap Pakuwon Mall Surabaya</option>
-                            <option value="M212 Digimap Sunter Mall">M212 Digimap Sunter Mall</option>
-                            <option value="M214 Digimap AEON Mall Sentul">M214 Digimap AEON Mall Sentul</option>
-                            <option value="M215 Digimap Mall Taman Anggrek">M215 Digimap Mall Taman Anggrek</option>
-                            <option value="M216 Digimap Tentrem Mall Semarang">M216 Digimap Tentrem Mall Semarang</option>
-                            <option value="M217 Digimap Blok M Plaza">M217 Digimap Blok M Plaza</option>
-                            <option value="M218 Digimap Plaza Balikpapan">M218 Digimap Plaza Balikpapan</option>
-                            <option value="M219 Digimap Basko Padang">M219 Digimap Basko Padang</option>
-                            <option value="M220 Digimap Malioboro Mall">M220 Digimap Malioboro Mall</option>
-                            <option value="M221 Digimap A Yani Pontianak">M221 Digimap A Yani Pontianak</option>
-                            <option value="M222 Digimap Palembang Indah Mall">M222 Digimap Palembang Indah Mall</option>
-                            <option value="M223 Digimap Roxy Square Jember">M223 Digimap Roxy Square Jember</option>
-                            <option value="M224 Digimap WTC Jambi">M224 Digimap WTC Jambi</option>
-                            <option value="M225 Digimap Citimall Dumai">M225 Digimap Citimall Dumai</option>
-                            <option value="M226 Digimap Ambon City Center">M226 Digimap Ambon City Center</option>
-                            <option value="M227 Digimap AEON Tanjung Barat">M227 Digimap AEON Tanjung Barat</option>
-                            <option value="M228 Digimap Citimall Cianjur 2">M228 Digimap Citimall Cianjur 2</option>
-                            <option value="M229 Digimap Trans Icon Surabaya">M229 Digimap Trans Icon Surabaya</option>
-                            <option value="M230 Digimap The Park Kendari">M230 Digimap The Park Kendari</option>
-                            <option value="M231 Digimap Gress Mall Gresik">M231 Digimap Gress Mall Gresik</option>
-                            <option value="M232 Digimap Pakuwon Mall Solo">M232 Digimap Pakuwon Mall Solo</option>
-                            <option value="M233 Digimap Unimas District Sidoarjo">M233 Digimap Unimas District Sidoarjo</option>
-                            <option value="M234 Digimap Citra Grand Cibubur">M234 Digimap Citra Grand Cibubur</option>
-                            <option value="M235 Digimap Lippo Plaza Kramat Jati">M235 Digimap Lippo Plaza Kramat Jati</option>
-                            <option value="M236 Digimap Palu Grand Mall">M236 Digimap Palu Grand Mall</option>
-                            <option value="M237 Digimap Solo Square">M237 Digimap Solo Square</option>
-                            <option value="M238 Digimap Pondok Indah Mall 2">M238 Digimap Pondok Indah Mall 2</option>
-                            <option value="M239 Digimap Icon Mall Bali">M239 Digimap Icon Mall Bali</option>
-                            <option value="M240 Digimap Pacific Mall Tegal">M240 Digimap Pacific Mall Tegal</option>
-                            <option value="M241 Digimap Revo Mall">M241 Digimap Revo Mall</option>
-                            <option value="M243 Digimap Aeon Mall Delta Mas">M243 Digimap Aeon Mall Delta Mas</option>
-                            <option value="M244 Digimap Java Mall Semarang">M244 Digimap Java Mall Semarang</option>
-                            <option value="M245 Digimap Living World Kota Wisata">M245 Digimap Living World Kota Wisata</option>
-                            <option value="M246 Digimap Malang Town Square">M246 Digimap Malang Town Square</option>
-                            <option value="M247 Digimap Lippo Plaza Jambi">M247 Digimap Lippo Plaza Jambi</option>
-                            <option value="M248 Digimap Suncity Mall Sidoarjo">M248 Digimap Suncity Mall Sidoarjo</option>
-                            <option value="M249 Digimap Lippo Plaza Palangkaraya">M249 Digimap Lippo Plaza Palangkaraya</option>
-                            <option value="M250 Digimap Lippo Plaza Batu">M250 Digimap Lippo Plaza Batu</option>
-                            <option value="M251 Digimap The Kings Shopping Centre Bandung">M251 Digimap The Kings Shopping Centre Bandung</option>
-                            <option value="M252 Digimap Binjai Mall">M252 Digimap Binjai Mall</option>
-                            <option value="M253 Digimap Plaza Surabaya">M253 Digimap Plaza Surabaya</option>
-                            <option value="M254 Digimap Basko city Mall Padang">M254 Digimap Basko city Mall Padang</option>
-                            <option value="M255 Digimap Antasari Place">M255 Digimap Antasari Place</option>
-                            <option value="M256 Digimap Lippo Plaza Lubuklinggau">M256 Digimap Lippo Plaza Lubuklinggau</option>
-                            <option value="M257 Digimap City Plaza Jatinegara">M257 Digimap City Plaza Jatinegara</option>
-                            <option value="M258 Digimap Lippo Plaza Manado">M258 Digimap Lippo Plaza Manado</option>
-                            <option value="M259 Digimap Jatinangor Town Square">M259 Digimap Jatinangor Town Square</option>
-                            <option value="M260 Digimap Kudus Extention Mall">M260 Digimap Kudus Extention Mall</option>
-                            <option value="M261 Digimap PIK Elang Laut">M261 Digimap PIK Elang Laut</option>
-                            <option value="M262 Digimap Suzuya Merdeka Square Siantar">M262 Digimap Suzuya Merdeka Square Siantar</option>
-                            <option value="M263 Digimap Citimall Sampit">M263 Digimap Citimall Sampit</option>
-                            <option value="M264 Digimap Plaza Semanggi">M264 Digimap Plaza Semanggi</option>
-                            <option value="M265 Digimap Merr Street">M265 Digimap Merr Street</option>
-                            <option value="M266 Digimap HIVE Harapan Indah">M266 Digimap HIVE Harapan Indah</option>
-                            <option value="M267 Digimap Mall Cijantung">M267 Digimap Mall Cijantung</option>
-                            <option value="M268 Digimap Diana Mall Timika">M268 Digimap Diana Mall Timika</option>
-                            <option value="M269 Digimap Tenth Avenue">M269 Digimap Tenth Avenue</option>
-                            <option value="M270 Digimap Citimall Lahat">M270 Digimap Citimall Lahat</option>
-                            <option value="M271 Digimap Mall Indramayu">M271 Digimap Mall Indramayu</option>
-                            <option value="M272 Digimap Kota Baru Parahyangan">M272 Digimap Kota Baru Parahyangan</option>
-                            <option value="M273 Digimap Metro Lampung">M273 Digimap Metro Lampung</option>
-                            <option value="M274 Digimap Street Ciputat Raya">M274 Digimap Street Ciputat Raya</option>
-                            <option value="M275 Digimap Citimall Baturaja">M275 Digimap Citimall Baturaja</option>
-                            <option value="M276 Digimap Shila At Sawangan">M276 Digimap Shila At Sawangan</option>
-                            <option value="M277 Digimap Citimall Tuban">M277 Digimap Citimall Tuban</option>
-                            <option value="M278 Digimap A.S.S Brebes">M278 Digimap A.S.S Brebes</option>
-                            <option value="M279 Digimap Ciumbuleuit">M279 Digimap Ciumbuleuit</option>
-                            <option value="M281 Digimap Ngaliyan Street">M281 Digimap Ngaliyan Street</option>
-                            <option value="M282 Digimap Citimall Pangkalanbun">M282 Digimap Citimall Pangkalanbun</option>
-                            <option value="M283 Digimap Basuki Rahmat Tulungagung">M283 Digimap Basuki Rahmat Tulungagung</option>
-                            <option value="M284 Digimap BSD Loka">M284 Digimap BSD Loka</option>
-                            <option value="M285 Digimap Blitar Square">M285 Digimap Blitar Square</option>
-                            <option value="M286 Digimap Citimall Prabumulih">M286 Digimap Citimall Prabumulih</option>
-                            <option value="M287 Digimap Grand Tarakan">M287 Digimap Grand Tarakan</option>
-                            <option value="M288 Digimap Mojopahit Street Mojokerto">M288 Digimap Mojopahit Street Mojokerto</option>
-                            <option value="M289 Digimap Maleo Town Square">M289 Digimap Maleo Town Square</option>
-                            <option value="M290 Digimap Mandau City Mall">M290 Digimap Mandau City Mall</option>
-                            <option value="M293 Digimap Jend Sudirman Salatiga">M293 Digimap Jend Sudirman Salatiga</option>
-                            <option value="M294 Digimap Bojonegoro Street">M294 Digimap Bojonegoro Street</option>
-                            <option value="M295 Digimap Juanda Tasikmalaya">M295 Digimap Juanda Tasikmalaya</option>
-                            <option value="M297 Digimap Ponorogo City Center">M297 Digimap Ponorogo City Center</option>
-                        </select>
+                    <!-- Store dengan Input Pencarian (Autosuggestion) -->
+                    <div class="relative">
+                        <label class="block text-xs sm:text-sm font-medium dark:text-slate-300 text-slate-700 mb-1" data-i18n="lblStore">Store / Lokasi (Ketik kode atau nama store)</label>
+                        <input type="text" id="storeInput" placeholder="Contoh: M131 atau Grand Indonesia..." autocomplete="off" required class="w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-100 dark:text-slate-100 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <input type="hidden" id="store" required>
+                        <div id="storeSuggestions" class="absolute z-50 left-0 right-0 mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl max-h-48 overflow-y-auto hidden"></div>
                     </div>
                 </div>
 
                 <!-- B. PETUNJUK -->
-                <div class="bg-indigo-950/20 border border-indigo-500/20 rounded-xl p-3 sm:p-5 text-xs sm:text-sm text-indigo-200 space-y-1">
-                    <p class="font-semibold text-indigo-300">B. PETUNJUK & PANDUAN PENILAIAN</p>
+                <div class="bg-indigo-950/20 dark:bg-indigo-950/20 bg-indigo-50 border border-indigo-500/20 rounded-xl p-3 sm:p-5 text-xs sm:text-sm dark:text-indigo-200 text-indigo-900 space-y-1">
+                    <p class="font-semibold text-indigo-400">B. PETUNJUK & PANDUAN PENILAIAN</p>
                     <p>1. Pastikan semua Staff Daily Worker sudah mendapatkan Training DigiX/Activation Device/Roleplay oleh ST/SPV.</p>
                     <p>2. Berikan Komentar/Catatan untuk peserta ketika mengikuti sesi Training.</p>
                 </div>
@@ -167,69 +93,69 @@
                 <div class="overflow-x-auto border border-slate-800 rounded-xl">
                     <table class="w-full text-left border-collapse min-w-[500px] sm:min-w-full">
                         <thead>
-                            <tr class="bg-slate-800/80 text-slate-300 text-[10px] sm:text-xs uppercase tracking-wider border-b border-slate-700">
+                            <tr class="bg-slate-800/80 dark:bg-slate-800/80 bg-slate-200 text-slate-300 dark:text-slate-300 text-slate-700 text-[10px] sm:text-xs uppercase tracking-wider border-b border-slate-700">
                                 <th class="p-2 sm:p-4 w-12 text-center">No</th>
-                                <th class="p-2 sm:p-4">Kategori & Detail Penilaian</th>
-                                <th class="p-2 sm:p-4 w-20 sm:w-28 text-center">Ceklis</th>
-                                <th class="p-2 sm:p-4 w-1/3">Komentar / Catatan</th>
+                                <th class="p-2 sm:p-4" data-i18n="thCategory">Kategori & Detail Penilaian</th>
+                                <th class="p-2 sm:p-4 w-20 sm:w-28 text-center" data-i18n="thCheck">Ceklis</th>
+                                <th class="p-2 sm:p-4 w-1/3" data-i18n="thNotes">Komentar / Catatan</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-800 text-xs sm:text-sm" id="checklistTableBody">
                             <tr class="bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-400">A. DigiX</td></tr>
                             <tr data-kategori="DigiX" data-detail="Materi Deliver: Staff DW sudah mengetahui materi DigiX">
                                 <td class="p-2 sm:p-3 text-center text-slate-400">1</td>
-                                <td class="p-2 sm:p-3 text-slate-200">Staff DW sudah mengetahui materi DigiX</td>
+                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah mengetahui materi DigiX</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
                             <tr data-kategori="Roleplay DigiX" data-detail="Roleplay: Staff DW sudah melakukan Roleplay DigiX">
                                 <td class="p-2 sm:p-3 text-center text-slate-400">2</td>
-                                <td class="p-2 sm:p-3 text-slate-200">Staff DW sudah melakukan Roleplay DigiX</td>
+                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah melakukan Roleplay DigiX</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
 
                             <tr class="bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-400">B. How to Activation</td></tr>
                             <tr data-kategori="How to Activation" data-detail="Materi Deliver: Staff DW sudah mengetahui langkah - langkah melakukan aktifasi device">
                                 <td class="p-2 sm:p-3 text-center text-slate-400">3</td>
-                                <td class="p-2 sm:p-3 text-slate-200">Staff DW sudah mengetahui langkah - langkah melakukan aktifasi device</td>
+                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah mengetahui langkah - langkah melakukan aktifasi device</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
 
                             <tr class="bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-400">C. iPhone 18 (Sekilas Pandang)</td></tr>
                             <tr data-kategori="iPhone 18 (Sekilas Pandang)" data-detail="iPhone 18: Staff DW sudah mengetahui dan mempelajari iPhone 18-Sekilas Pandang">
                                 <td class="p-2 sm:p-3 text-center text-slate-400">4</td>
-                                <td class="p-2 sm:p-3 text-slate-200">Staff DW sudah mengetahui dan mempelajari "iPhone 18-Sekilas Pandang"</td>
+                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah mengetahui dan mempelajari "iPhone 18-Sekilas Pandang"</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
 
                             <tr class="bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-400">D. Roleplay</td></tr>
                             <tr data-kategori="Roleplay Usher" data-detail="Usher: Staff DW melakukan roleplay sebagai USHER ketika NPI">
                                 <td class="p-2 sm:p-3 text-center text-slate-400">5</td>
-                                <td class="p-2 sm:p-3 text-slate-200">Staff DW melakukan roleplay sebagai USHER ketika NPI</td>
+                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW melakukan roleplay sebagai USHER ketika NPI</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
                             <tr data-kategori="Roleplay Menawarkan Aksesoris" data-detail="Accessories: Staff DW sudah melakukan Roleplay bagaimana menawarkan Accessories ketika NPI">
                                 <td class="p-2 sm:p-3 text-center text-slate-400">6</td>
-                                <td class="p-2 sm:p-3 text-slate-200">Staff DW sudah melakukan Roleplay bagaimana menawarkan Accessories ketika NPI</td>
+                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah melakukan Roleplay bagaimana menawarkan Accessories ketika NPI</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
                             <tr data-kategori="Roleplay Aktivasi Unit" data-detail="Activator: Staff DW sudah melakukan Roleplay bagaimana caranya aktifasi unit ketika NPI">
                                 <td class="p-2 sm:p-3 text-center text-slate-400">7</td>
-                                <td class="p-2 sm:p-3 text-slate-200">Staff DW sudah melakukan Roleplay bagaimana caranya aktifasi unit ketika NPI</td>
+                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah melakukan Roleplay bagaimana caranya aktifasi unit ketika NPI</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <div class="flex justify-end pt-2 sm:pt-4">
-                    <button type="submit" id="submitBtn" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-8 py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/30 flex justify-center items-center gap-2 text-sm sm:text-base">
+                    <button type="submit" id="submitBtn" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-8 py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/30 flex justify-center items-center gap-2 text-sm sm:text-base" data-i18n="btnSubmit">
                         <span>Submit Penilaian</span>
                     </button>
                 </div>
@@ -237,76 +163,76 @@
         </div>
 
         <!-- 2. TAB DASHBOARD & REPORT MANAGEMENT -->
-        <div id="dashboardTab" class="hidden bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10 space-y-6 sm:space-y-8">
+        <div id="dashboardTab" class="hidden bg-slate-900/90 dark:bg-slate-900/90 bg-white border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10 space-y-6 sm:space-y-8">
             <div class="flex flex-col gap-4 border-b border-slate-800 pb-4 sm:pb-6">
                 <div>
-                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Summary</span>
-                    <h2 class="text-xl sm:text-2xl font-bold mt-2 text-white">Dashboard Report Management</h2>
+                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20" data-i18n="badgeSummary">Executive Summary</span>
+                    <h2 class="text-xl sm:text-2xl font-bold mt-2 dark:text-white text-slate-900" data-i18n="dashboardTitle">Dashboard Report Management</h2>
                 </div>
-                <!-- Tombol Action Responsive (Mobile Stack) -->
+                <!-- Tombol Action Responsive -->
                 <div class="grid grid-cols-3 gap-2">
-                    <button onclick="fetchSheetData()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-2 py-2.5 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1">🔄 Refresh</button>
-                    <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-2 py-2.5 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1">📊 Excel</button>
-                    <button onclick="exportToPDF()" class="bg-rose-600 hover:bg-rose-500 text-white font-medium px-2 py-2.5 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1">📄 PDF</button>
+                    <button onclick="fetchSheetData()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-2 py-2.5 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1" data-i18n="btnRefresh">🔄 Refresh</button>
+                    <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-2 py-2.5 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1" data-i18n="btnExcel">📊 Excel</button>
+                    <button onclick="exportToPDF()" class="bg-rose-600 hover:bg-rose-500 text-white font-medium px-2 py-2.5 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1" data-i18n="btnPDF">📄 PDF</button>
                 </div>
             </div>
 
-            <!-- Bagian Summary Cards Detail (Responsive Grid untuk HP) -->
+            <!-- Bagian Summary Cards Detail -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-                <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400">DigiX (Materi)</p>
-                    <h3 id="statDigix" class="text-xl sm:text-2xl font-bold text-white mt-1">0</h3>
+                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-400" data-i18n="cardDigix">DigiX (Materi)</p>
+                    <h3 id="statDigix" class="text-xl sm:text-2xl font-bold dark:text-white text-slate-900 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400">How to Activation</p>
-                    <h3 id="statActivation" class="text-xl sm:text-2xl font-bold text-white mt-1">0</h3>
+                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-400" data-i18n="cardActivation">How to Activation</p>
+                    <h3 id="statActivation" class="text-xl sm:text-2xl font-bold dark:text-white text-slate-900 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400">iPhone 18 (Sekilas)</p>
-                    <h3 id="statIphone" class="text-xl sm:text-2xl font-bold text-white mt-1">0</h3>
+                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-400" data-i18n="cardIphone">iPhone 18 (Sekilas)</p>
+                    <h3 id="statIphone" class="text-xl sm:text-2xl font-bold dark:text-white text-slate-900 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400">Roleplay DigiX</p>
+                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-400" data-i18n="cardRpDigix">Roleplay DigiX</p>
                     <h3 id="statRpDigix" class="text-xl sm:text-2xl font-bold text-indigo-400 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400">Roleplay Usher</p>
+                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-400" data-i18n="cardUsher">Roleplay Usher</p>
                     <h3 id="statUsher" class="text-xl sm:text-2xl font-bold text-indigo-400 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400">Menawarkan Aksesoris</p>
+                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-400" data-i18n="cardAcc">Menawarkan Aksesoris</p>
                     <h3 id="statAcc" class="text-xl sm:text-2xl font-bold text-indigo-400 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400">Aktivasi Unit</p>
+                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-400" data-i18n="cardActUnit">Aktivasi Unit</p>
                     <h3 id="statActUnit" class="text-xl sm:text-2xl font-bold text-indigo-400 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400">Total Keseluruhan</p>
+                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-400" data-i18n="cardTotal">Total Keseluruhan</p>
                     <h3 id="statTotal" class="text-xl sm:text-2xl font-bold text-emerald-400 mt-1">0</h3>
                 </div>
             </div>
 
             <!-- Area Container untuk Export PDF -->
             <div id="pdfContainer" class="space-y-4">
-                <div class="bg-slate-800/20 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <h3 class="text-sm sm:text-lg font-semibold text-indigo-300 mb-3">Tabel Mirror Google Sheet</h3>
+                <div class="bg-slate-800/20 dark:bg-slate-800/20 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
+                    <h3 class="text-sm sm:text-lg font-semibold text-indigo-300 mb-3" data-i18n="tableTitle">Tabel Mirror Google Sheet</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-xs sm:text-sm min-w-[600px]" id="reportTable">
                             <thead>
-                                <tr class="bg-slate-800 text-slate-300 text-[10px] sm:text-xs uppercase border-b border-slate-700">
-                                    <th class="p-2 sm:p-3">Timestamp</th>
-                                    <th class="p-2 sm:p-3">Nama Staff</th>
-                                    <th class="p-2 sm:p-3">Tanggal</th>
-                                    <th class="p-2 sm:p-3">Store</th>
-                                    <th class="p-2 sm:p-3">Kategori</th>
-                                    <th class="p-2 sm:p-3">Detail Penilaian</th>
-                                    <th class="p-2 sm:p-3 text-center">Status</th>
-                                    <th class="p-2 sm:p-3">Catatan</th>
+                                <tr class="bg-slate-800 dark:bg-slate-800 bg-slate-200 text-slate-300 dark:text-slate-300 text-slate-700 text-[10px] sm:text-xs uppercase border-b border-slate-700">
+                                    <th class="p-2 sm:p-3" data-i18n="thTime">Timestamp</th>
+                                    <th class="p-2 sm:p-3" data-i18n="thStaff">Nama Staff</th>
+                                    <th class="p-2 sm:p-3" data-i18n="thDate">Tanggal</th>
+                                    <th class="p-2 sm:p-3" data-i18n="thStore">Store</th>
+                                    <th class="p-2 sm:p-3" data-i18n="thCat">Kategori</th>
+                                    <th class="p-2 sm:p-3" data-i18n="thDetail">Detail Penilaian</th>
+                                    <th class="p-2 sm:p-3 text-center" data-i18n="thStatus">Status</th>
+                                    <th class="p-2 sm:p-3" data-i18n="thNote">Catatan</th>
                                 </tr>
                             </thead>
-                            <tbody id="reportTableBody" class="divide-y divide-slate-800 text-slate-300">
-                                <tr><td colspan="8" class="p-4 text-center text-slate-500">Klik tombol "Refresh" untuk memuat data.</td></tr>
+                            <tbody id="reportTableBody" class="divide-y divide-slate-800 dark:text-slate-300 text-slate-700">
+                                <tr><td colspan="8" class="p-4 text-center text-slate-500" data-i18n="tableLoading">Klik tombol "Refresh" untuk memuat data.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -320,6 +246,151 @@
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxg_Okc4wygiclJKKka778QMXUenTpdAms7vO0SSD3EoZRRs4D3uojI3QXUQ4N3YDAsUQ/exec';
         let sheetData = [];
+        let currentLang = 'id';
+
+        // Kamus Bahasa (ID & EN)
+        const dict = {
+            id: {
+                formTitle: "FORM CEKLIS DAILY WORKER",
+                lblName: "Nama Staff",
+                lblDate: "Tanggal Pelatihan",
+                lblStore: "Store / Lokasi (Ketik kode atau nama store)",
+                thCategory: "Kategori & Detail Penilaian",
+                thCheck: "Ceklis",
+                thNotes: "Komentar / Catatan",
+                btnSubmit: "Submit Penilaian",
+                badgeSummary: "Executive Summary",
+                dashboardTitle: "Dashboard Report Management",
+                btnRefresh: "🔄 Refresh",
+                btnExcel: "📊 Excel",
+                btnPDF: "📄 PDF",
+                cardDigix: "DigiX (Materi)",
+                cardActivation: "How to Activation",
+                cardIphone: "iPhone 18 (Sekilas)",
+                cardRpDigix: "Roleplay DigiX",
+                cardUsher: "Roleplay Usher",
+                cardAcc: "Menawarkan Aksesoris",
+                cardActUnit: "Aktivasi Unit",
+                cardTotal: "Total Keseluruhan",
+                tableTitle: "Tabel Mirror Google Sheet",
+                thTime: "Timestamp",
+                thStaff: "Nama Staff",
+                thDate: "Tanggal",
+                thStore: "Store",
+                thCat: "Kategori",
+                thDetail: "Detail Penilaian",
+                thStatus: "Status",
+                thNote: "Catatan",
+                tableLoading: "Klik tombol \"Refresh\" untuk memuat data."
+            },
+            en: {
+                formTitle: "DAILY WORKER CHECKLIST FORM",
+                lblName: "Staff Name",
+                lblDate: "Training Date",
+                lblStore: "Store / Location (Type code or store name)",
+                thCategory: "Category & Assessment Detail",
+                thCheck: "Checklist",
+                thNotes: "Comments / Notes",
+                btnSubmit: "Submit Assessment",
+                badgeSummary: "Executive Summary",
+                dashboardTitle: "Dashboard Report Management",
+                btnRefresh: "🔄 Refresh",
+                btnExcel: "📊 Excel",
+                btnPDF: "📄 PDF",
+                cardDigix: "DigiX (Material)",
+                cardActivation: "How to Activation",
+                cardIphone: "iPhone 18 (Overview)",
+                cardRpDigix: "Roleplay DigiX",
+                cardUsher: "Roleplay Usher",
+                cardAcc: "Offering Accessories",
+                cardActUnit: "Device Activation",
+                cardTotal: "Overall Total",
+                tableTitle: "Google Sheet Mirror Table",
+                thTime: "Timestamp",
+                thStaff: "Staff Name",
+                thDate: "Date",
+                thStore: "Store",
+                thCat: "Category",
+                thDetail: "Assessment Detail",
+                thStatus: "Status",
+                thNote: "Notes",
+                tableLoading: "Click \"Refresh\" button to load data."
+            }
+        };
+
+        function changeLanguage() {
+            currentLang = document.getElementById('langSelect').value;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[currentLang][key]) {
+                    el.innerText = dict[currentLang][key];
+                }
+            });
+        }
+
+        // Realtime Clock & Calendar Indonesia
+        function updateClock() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
+            document.getElementById('liveClock').innerText = now.toLocaleDateString('id-ID', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Dark / Light Mode Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                document.getElementById('themeLabel').innerText = "Terang";
+            } else {
+                html.classList.add('dark');
+                document.getElementById('themeLabel').innerText = "Gelap";
+            }
+        }
+
+        // Daftar Store Digimap Lengkap
+        const stores = [
+            "M116 Digimap Beachwalk Bali", "M118 Digimap Pondok Indah Mall 3", "M119 Digimap Centrepoint Mall Medan", "M120 Digimap Sun Plaza Medan", "M121 Digimap Tunjungan Plaza 3 Surabaya", "M122 Digimap Galaxy Mall Surabaya", "M123 Digimap Mall Bali Galeria", "M124 Digimap Pacific Place", "M125 Digimap Supermall Karawaci", "M126 Digimap Ciputra World Surabaya", "M127 Digimap Lotte Shopping Avenue", "M128 Digimap Emporium Mall Pluit", "M129 Digimap Mall Puri Indah", "M130 Digimap Sunset Road Bali", "M131 Digimap Grand Indonesia", "M132 Digimap Plaza Senayan", "M133 Digimap Trans Studio Mall Bandung", "M201 Digimap Trans Studio Mall Cibubur", "M203 Digimap AEON Mall BSD", "M205 Digimap Paskal 23 Bandung", "M206 Digimap Pakuwon Mall Surabaya", "M212 Digimap Sunter Mall", "M214 Digimap AEON Mall Sentul", "M215 Digimap Mall Taman Anggrek", "M216 Digimap Tentrem Mall Semarang", "M217 Digimap Blok M Plaza", "M218 Digimap Plaza Balikpapan", "M219 Digimap Basko Padang", "M220 Digimap Malioboro Mall", "M221 Digimap A Yani Pontianak", "M222 Digimap Palembang Indah Mall", "M223 Digimap Roxy Square Jember", "M224 Digimap WTC Jambi", "M225 Digimap Citimall Dumai", "M226 Digimap Ambon City Center", "M227 Digimap AEON Tanjung Barat", "M228 Digimap Citimall Cianjur 2", "M229 Digimap Trans Icon Surabaya", "M230 Digimap The Park Kendari", "M231 Digimap Gress Mall Gresik", "M232 Digimap Pakuwon Mall Solo", "M233 Digimap Unimas District Sidoarjo", "M234 Digimap Citra Grand Cibubur", "M235 Digimap Lippo Plaza Kramat Jati", "M236 Digimap Palu Grand Mall", "M237 Digimap Solo Square", "M238 Digimap Pondok Indah Mall 2", "M239 Digimap Icon Mall Bali", "M240 Digimap Pacific Mall Tegal", "M241 Digimap Revo Mall", "M243 Digimap Aeon Mall Delta Mas", "M244 Digimap Java Mall Semarang", "M245 Digimap Living World Kota Wisata", "M246 Digimap Malang Town Square", "M247 Digimap Lippo Plaza Jambi", "M248 Digimap Suncity Mall Sidoarjo", "M249 Digimap Lippo Plaza Palangkaraya", "M250 Digimap Lippo Plaza Batu", "M251 Digimap The Kings Shopping Centre Bandung", "M252 Digimap Binjai Mall", "M253 Digimap Plaza Surabaya", "M254 Digimap Basko city Mall Padang", "M255 Digimap Antasari Place", "M256 Digimap Lippo Plaza Lubuklinggau", "M257 Digimap City Plaza Jatinegara", "M258 Digimap Lippo Plaza Manado", "M259 Digimap Jatinangor Town Square", "M260 Digimap Kudus Extention Mall", "M261 Digimap PIK Elang Laut", "M262 Digimap Suzuya Merdeka Square Siantar", "M263 Digimap Citimall Sampit", "M264 Digimap Plaza Semanggi", "M265 Digimap Merr Street", "M266 Digimap HIVE Harapan Indah", "M267 Digimap Mall Cijantung", "M268 Digimap Diana Mall Timika", "M269 Digimap Tenth Avenue", "M270 Digimap Citimall Lahat", "M271 Digimap Mall Indramayu", "M272 Digimap Kota Baru Parahyangan", "M273 Digimap Metro Lampung", "M274 Digimap Street Ciputat Raya", "M275 Digimap Citimall Baturaja", "M276 Digimap Shila At Sawangan", "M277 Digimap Citimall Tuban", "M278 Digimap A.S.S Brebes", "M279 Digimap Ciumbuleuit", "M281 Digimap Ngaliyan Street", "M282 Digimap Citimall Pangkalanbun", "M283 Digimap Basuki Rahmat Tulungagung", "M284 Digimap BSD Loka", "M285 Digimap Blitar Square", "M286 Digimap Citimall Prabumulih", "M287 Digimap Grand Tarakan", "M288 Digimap Mojopahit Street Mojokerto", "M289 Digimap Maleo Town Square", "M290 Digimap Mandau City Mall", "M293 Digimap Jend Sudirman Salatiga", "M294 Digimap Bojonegoro Street", "M295 Digimap Juanda Tasikmalaya", "M297 Digimap Ponorogo City Center"
+        ];
+
+        // Autocomplete Store Search
+        const storeInput = document.getElementById('storeInput');
+        const storeHidden = document.getElementById('store');
+        const storeSuggestions = document.getElementById('storeSuggestions');
+
+        storeInput.addEventListener('input', function() {
+            const val = this.value.toLowerCase();
+            storeSuggestions.innerHTML = '';
+            if (!val) {
+                storeSuggestions.classList.add('hidden');
+                return;
+            }
+            const filtered = stores.filter(s => s.toLowerCase().includes(val));
+            if (filtered.length > 0) {
+                storeSuggestions.classList.remove('hidden');
+                filtered.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = "p-2.5 hover:bg-indigo-600 hover:text-white cursor-pointer text-xs text-slate-200 border-b border-slate-800";
+                    div.innerText = item;
+                    div.onclick = () => {
+                        storeInput.value = item;
+                        storeHidden.value = item;
+                        storeSuggestions.classList.add('hidden');
+                    };
+                    storeSuggestions.appendChild(div);
+                });
+            } else {
+                storeSuggestions.classList.add('hidden');
+            }
+        });
+
+        // Tutup saran store jika klik di luar
+        document.addEventListener('click', function(e) {
+            if (!storeInput.contains(e.target) && !storeSuggestions.contains(e.target)) {
+                storeSuggestions.classList.add('hidden');
+            }
+        });
 
         function switchTab(tabId) {
             const formTab = document.getElementById('formTab');
@@ -364,12 +435,25 @@
         form.addEventListener('submit', e => {
             e.preventDefault();
             
+            // Validasi store hidden
+            if(!storeHidden.value) {
+                storeHidden.value = storeInput.value;
+            }
+
             submitBtn.disabled = true;
             submitBtn.innerHTML = 'Mengirim data...';
 
             const nama = document.getElementById('nama').value;
-            const tanggal = document.getElementById('tanggal').value;
-            const store = document.getElementById('store').value;
+            const rawDate = document.getElementById('tanggal').value;
+            
+            // Format Tanggal ke Kalender Indonesia (Contoh: Rabu, 30 September 2026)
+            let formattedDate = rawDate;
+            if(rawDate) {
+                const dateObj = new Date(rawDate);
+                formattedDate = dateObj.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            }
+
+            const store = storeHidden.value;
 
             const rows = document.querySelectorAll('#checklistTableBody tr[data-kategori]');
             let items = [];
@@ -393,13 +477,13 @@
             if (items.length === 0) {
                 alert('Harap centang minimal satu poin penilaian sebelum submit!');
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Submit Penilaian';
+                submitBtn.innerHTML = dict[currentLang].btnSubmit;
                 return;
             }
 
             const payload = {
                 nama: nama,
-                tanggal: tanggal,
+                tanggal: formattedDate,
                 store: store,
                 items: items
             };
@@ -413,15 +497,16 @@
             .then(() => {
                 alert('Form berhasil disubmit!');
                 form.reset();
+                storeHidden.value = '';
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Submit Penilaian';
+                submitBtn.innerHTML = dict[currentLang].btnSubmit;
                 switchTab('dashboardTab');
             })
             .catch(error => {
                 console.error('Error!', error.message);
                 alert('Terjadi kesalahan saat mengirim data.');
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Submit Penilaian';
+                submitBtn.innerHTML = dict[currentLang].btnSubmit;
             });
         });
 
@@ -442,7 +527,6 @@
                 tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-500">Google Sheet kosong atau data tidak ditemukan.</td></tr>`;
             } else {
                 sheetData.forEach(item => {
-                    // Hitung kategori berdasarkan nilai kolom kategori di sheet
                     const kat = item.kategori ? item.kategori.trim() : '';
                     if (kat === 'DigiX') countDigix++;
                     else if (kat === 'How to Activation') countActivation++;
@@ -456,11 +540,11 @@
                     tr.className = "border-b border-slate-800/60 hover:bg-slate-800/30";
                     tr.innerHTML = `
                         <td class="p-2 sm:p-3 text-[11px] text-slate-400">${item.timestamp}</td>
-                        <td class="p-2 sm:p-3 font-medium text-white">${item.nama}</td>
-                        <td class="p-2 sm:p-3 text-slate-300">${item.tanggal}</td>
-                        <td class="p-2 sm:p-3 text-slate-300 text-[11px]">${item.store}</td>
+                        <td class="p-2 sm:p-3 font-medium dark:text-white text-slate-900">${item.nama}</td>
+                        <td class="p-2 sm:p-3 dark:text-slate-300 text-slate-700">${item.tanggal}</td>
+                        <td class="p-2 sm:p-3 dark:text-slate-300 text-slate-700 text-[11px]">${item.store}</td>
                         <td class="p-2 sm:p-3 text-indigo-400">${item.kategori}</td>
-                        <td class="p-2 sm:p-3 text-[11px] text-slate-300">${item.detail}</td>
+                        <td class="p-2 sm:p-3 text-[11px] dark:text-slate-300 text-slate-700">${item.detail}</td>
                         <td class="p-2 sm:p-3 text-center"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-400">${item.ceklis}</span></td>
                         <td class="p-2 sm:p-3 text-[11px] text-slate-400">${item.komentar}</td>
                     `;
@@ -468,7 +552,6 @@
                 });
             }
 
-            // Update nilai summary cards ke HTML
             document.getElementById('statDigix').innerText = countDigix;
             document.getElementById('statActivation').innerText = countActivation;
             document.getElementById('statIphone').innerText = countIphone;
@@ -497,7 +580,7 @@
             }
             const element = document.getElementById('pdfContainer');
             const options = {
-                margin:       10,
+                margin:       5,
                 filename:     'Report_Ceklis_Daily_Worker_Mirror.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true },
