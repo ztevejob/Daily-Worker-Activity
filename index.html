@@ -246,7 +246,6 @@
                     <h2 class="text-2xl font-bold mt-2 text-white">Dashboard Report Management</h2>
                 </div>
                 <div class="flex gap-3">
-                    <button onclick="fetchDashboardData()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-lg flex items-center gap-2">🔄 Refresh Data</button>
                     <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-lg flex items-center gap-2">📊 Export Excel</button>
                     <button onclick="exportToPDF()" class="bg-rose-600 hover:bg-rose-500 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-lg flex items-center gap-2">📄 Export PDF</button>
                 </div>
@@ -255,7 +254,7 @@
             <!-- Bagian Summary Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-5">
-                    <p class="text-sm text-slate-400">Total Data di Google Sheet</p>
+                    <p class="text-sm text-slate-400">Total Poin Submit</p>
                     <h3 id="statTotal" class="text-3xl font-bold text-white mt-1">0</h3>
                 </div>
                 <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-5">
@@ -263,7 +262,7 @@
                     <h3 id="statSudah" class="text-3xl font-bold text-emerald-400 mt-1">0</h3>
                 </div>
                 <div class="bg-slate-800/40 border border-slate-800 rounded-xl p-5">
-                    <p class="text-sm text-slate-400">Tingkat Kelulusan</p>
+                    <p class="text-sm text-slate-400">Progres Kelulusan</p>
                     <h3 id="statPersen" class="text-3xl font-bold text-indigo-400 mt-1">100%</h3>
                 </div>
             </div>
@@ -271,7 +270,7 @@
             <!-- Area Container untuk Export PDF -->
             <div id="pdfContainer" class="space-y-6">
                 <div class="bg-slate-800/20 border border-slate-800 rounded-xl p-4">
-                    <h3 class="text-lg font-semibold text-indigo-300 mb-3">Tabel Riwayat Google Sheet (Real-time)</h3>
+                    <h3 class="text-lg font-semibold text-indigo-300 mb-3">Tabel Riwayat Report Management</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-sm" id="reportTable">
                             <thead>
@@ -287,7 +286,7 @@
                                 </tr>
                             </thead>
                             <tbody id="reportTableBody" class="divide-y divide-slate-800 text-slate-300">
-                                <tr><td colspan="8" class="p-4 text-center text-slate-500">Memuat data dari Google Sheet...</td></tr>
+                                <tr><td colspan="8" class="p-4 text-center text-slate-500">Belum ada data submit.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -299,8 +298,8 @@
 
     <!-- Script Utama -->
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwRbm8LSmALcMZr72holbPWdo5xrpIOL7-TXWo6MUObRGWOaVHcvzr6Gk2vsAm5-lGjPg/exec';
-        let liveReportData = [];
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzDl9JUW-vnFfqUneToMTu3nVrGpPLiC7NqrGlVziSZU9Zc8MA0lmD67DJW9ocL24izBg/exec';
+        let localReportData = JSON.parse(localStorage.getItem('dw_reports_v2') || '[]');
 
         function switchTab(tabId) {
             const formTab = document.getElementById('formTab');
@@ -319,26 +318,8 @@
                 btnDashboard.className = "px-6 py-2.5 rounded-xl font-semibold text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30";
                 btnForm.className = "px-6 py-2.5 rounded-xl font-semibold text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800";
                 
-                // Ambil data langsung dari Google Sheet saat tab dashboard dibuka
-                fetchDashboardData();
+                renderDashboard();
             }
-        }
-
-        // Fungsi menarik data langsung dari Google Sheet via doGet
-        function fetchDashboardData() {
-            const tbody = document.getElementById('reportTableBody');
-            tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">Sedang menyinkronkan dengan Google Sheet...</td></tr>`;
-
-            fetch(scriptURL)
-                .then(response => response.json())
-                .then(data => {
-                    liveReportData = data;
-                    renderDashboard();
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-400">Gagal memuat data dari Google Sheet.</td></tr>`;
-                });
         }
 
         const form = document.getElementById('dwForm');
@@ -392,6 +373,7 @@
                 items: items
             };
 
+            // Kirim ke Google Sheet
             fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -399,6 +381,10 @@
                 body: JSON.stringify(payload)
             })
             .then(() => {
+                // Simpan ke riwayat lokal dashboard
+                localReportData.push(...items);
+                localStorage.setItem('dw_reports_v2', JSON.stringify(localReportData));
+
                 alert('Form Ceklis Daily Worker berhasil disubmit dan tersimpan ke Google Sheet!');
                 form.reset();
                 submitBtn.disabled = false;
@@ -416,12 +402,12 @@
             const tbody = document.getElementById('reportTableBody');
             tbody.innerHTML = '';
 
-            let total = liveReportData.length;
+            let total = localReportData.length;
 
             if (total === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-500">Google Sheet masih kosong (tidak ada data).</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-500">Belum ada data submit.</td></tr>`;
             } else {
-                liveReportData.forEach(item => {
+                localReportData.forEach(item => {
                     const tr = document.createElement('tr');
                     tr.className = "border-b border-slate-800/60 hover:bg-slate-800/30";
                     tr.innerHTML = `
@@ -444,18 +430,18 @@
         }
 
         function exportToExcel() {
-            if (liveReportData.length === 0) {
+            if (localReportData.length === 0) {
                 alert('Belum ada data untuk diexport!');
                 return;
             }
-            const worksheet = XLSX.utils.json_to_sheet(liveReportData);
+            const worksheet = XLSX.utils.json_to_sheet(localReportData);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Ceklis DW");
             XLSX.writeFile(workbook, "Report_Ceklis_Daily_Worker.xlsx");
         }
 
         function exportToPDF() {
-            if (liveReportData.length === 0) {
+            if (localReportData.length === 0) {
                 alert('Belum ada data untuk diexport!');
                 return;
             }
