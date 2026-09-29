@@ -19,136 +19,135 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 dark:bg-slate-950 dark:text-slate-100 bg-slate-50 text-slate-900 min-h-screen py-4 px-3 sm:py-8 sm:px-6 transition-colors duration-200">
+<body class="bg-slate-950 text-slate-100 dark:bg-slate-950 dark:text-slate-100 bg-slate-100 text-slate-900 min-h-screen py-4 px-3 sm:py-8 sm:px-6 transition-colors duration-200">
 
     <div class="max-w-6xl mx-auto space-y-4 sm:space-y-6">
         
         <!-- HEADER TOP: Waktu, Indikator Sync & Toggle Theme -->
-        <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-900/60 dark:bg-slate-900/60 bg-white border border-slate-800 rounded-2xl p-3 sm:p-4 gap-3 shadow-lg backdrop-blur-xl">
+        <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-900/60 dark:bg-slate-900/60 bg-white border border-slate-300 dark:border-slate-800 rounded-2xl p-3 sm:p-4 gap-3 shadow-lg backdrop-blur-xl">
             <!-- Realtime Clock & Calendar -->
-            <div class="flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-300 dark:text-slate-300 text-slate-700">
+            <div class="flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">
                 <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 absolute"></span>
-                <span id="liveClock" class="ml-2 font-semibold text-emerald-400">Memuat waktu...</span>
+                <span id="liveClock" class="ml-2 font-semibold text-emerald-600 dark:text-emerald-400">Memuat waktu...</span>
             </div>
 
             <!-- Kontrol Tema & Bahasa -->
             <div class="flex items-center gap-3">
-                <select id="langSelect" onchange="changeLanguage()" class="bg-slate-950 dark:bg-slate-950 bg-slate-100 border border-slate-700 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-200 focus:outline-none">
+                <select id="langSelect" onchange="changeLanguage()" class="bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-900 dark:text-slate-200 focus:outline-none">
                     <option value="id">Bahasa Indonesia</option>
                     <option value="en">English</option>
                 </select>
-                <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-800/60 dark:bg-slate-800/60 bg-slate-200 border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white transition">
+                <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white transition">
                     🌓 <span id="themeLabel">Mode</span>
                 </button>
             </div>
         </div>
 
         <!-- Navigasi Menu Tab -->
-        <div class="flex justify-center gap-2 sm:gap-4 border-b border-slate-800 pb-4">
+        <div class="flex justify-center gap-2 sm:gap-4 border-b border-slate-300 dark:border-slate-800 pb-4">
             <button onclick="switchTab('formTab')" id="btnFormTab" class="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center">Form Ceklis</button>
-            <button onclick="switchTab('dashboardTab')" id="btnDashboardTab" class="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800 text-center">Dashboard Report</button>
+            <button onclick="switchTab('dashboardTab')" id="btnDashboardTab" class="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center">Dashboard Report</button>
         </div>
 
         <!-- 1. TAB FORM CEKLIS -->
-        <div id="formTab" class="bg-slate-900/90 dark:bg-slate-900/90 bg-white border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10">
-            <div class="text-center border-b border-slate-800 pb-4 sm:pb-6 mb-6 sm:mb-8">
-                <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Digimap Retail Training</span>
-                <h1 class="text-xl sm:text-3xl font-bold mt-2 sm:mt-3 dark:text-white text-slate-900 tracking-tight" data-i18n="formTitle">FORM CEKLIS DAILY WORKER</h1>
+        <div id="formTab" class="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10">
+            <div class="text-center border-b border-slate-300 dark:border-slate-800 pb-4 sm:pb-6 mb-6 sm:mb-8">
+                <h1 class="text-xl sm:text-3xl font-bold mt-2 sm:mt-3 text-slate-900 dark:text-white tracking-tight" data-i18n="formTitle">FORM CEKLIS DAILY WORKER</h1>
             </div>
 
             <form id="dwForm" class="space-y-6 sm:space-y-8">
                 <!-- A. DATA STAFF -->
-                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-4 sm:p-6 space-y-4">
-                    <h2 class="text-base sm:text-lg font-semibold text-indigo-400 border-b border-slate-800 pb-2">A. DATA STAFF</h2>
+                <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-800 rounded-xl p-4 sm:p-6 space-y-4">
+                    <h2 class="text-base sm:text-lg font-semibold text-indigo-600 dark:text-indigo-400 border-b border-slate-300 dark:border-slate-800 pb-2">A. DATA STAFF</h2>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs sm:text-sm font-medium dark:text-slate-300 text-slate-700 mb-1" data-i18n="lblName">Nama Staff</label>
-                            <input type="text" id="nama" required class="w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-100 dark:text-slate-100 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <label class="block text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" data-i18n="lblName">Nama Staff</label>
+                            <input type="text" id="nama" required class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs sm:text-sm font-medium dark:text-slate-300 text-slate-700 mb-1" data-i18n="lblDate">Tanggal Pelatihan</label>
-                            <input type="date" id="tanggal" required class="w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-100 dark:text-slate-100 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <label class="block text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" data-i18n="lblDate">Tanggal Pelatihan</label>
+                            <input type="date" id="tanggal" required class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                         </div>
                     </div>
 
                     <!-- Store dengan Input Pencarian (Autosuggestion) -->
                     <div class="relative">
-                        <label class="block text-xs sm:text-sm font-medium dark:text-slate-300 text-slate-700 mb-1" data-i18n="lblStore">Store / Lokasi (Ketik kode atau nama store)</label>
-                        <input type="text" id="storeInput" placeholder="Contoh: M131 atau Grand Indonesia..." autocomplete="off" required class="w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-100 dark:text-slate-100 text-slate-900 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <label class="block text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" data-i18n="lblStore">Store / Lokasi (Ketik kode atau nama store)</label>
+                        <input type="text" id="storeInput" placeholder="Contoh: M131 atau Grand Indonesia..." autocomplete="off" required class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                         <input type="hidden" id="store" required>
-                        <div id="storeSuggestions" class="absolute z-50 left-0 right-0 mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl max-h-48 overflow-y-auto hidden"></div>
+                        <div id="storeSuggestions" class="absolute z-50 left-0 right-0 mt-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-2xl max-h-48 overflow-y-auto hidden"></div>
                     </div>
                 </div>
 
                 <!-- B. PETUNJUK -->
-                <div class="bg-indigo-950/20 dark:bg-indigo-950/20 bg-indigo-50 border border-indigo-500/20 rounded-xl p-3 sm:p-5 text-xs sm:text-sm dark:text-indigo-200 text-indigo-900 space-y-1">
-                    <p class="font-semibold text-indigo-400">B. PETUNJUK & PANDUAN PENILAIAN</p>
+                <div class="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-500/20 rounded-xl p-3 sm:p-5 text-xs sm:text-sm text-indigo-900 dark:text-indigo-200 space-y-1">
+                    <p class="font-semibold text-indigo-600 dark:text-indigo-400">B. PETUNJUK & PANDUAN PENILAIAN</p>
                     <p>1. Pastikan semua Staff Daily Worker sudah mendapatkan Training DigiX/Activation Device/Roleplay oleh ST/SPV.</p>
                     <p>2. Berikan Komentar/Catatan untuk peserta ketika mengikuti sesi Training.</p>
                 </div>
 
                 <!-- TABEL PENILAIAN -->
-                <div class="overflow-x-auto border border-slate-800 rounded-xl">
+                <div class="overflow-x-auto border border-slate-300 dark:border-slate-800 rounded-xl">
                     <table class="w-full text-left border-collapse min-w-[500px] sm:min-w-full">
                         <thead>
-                            <tr class="bg-slate-800/80 dark:bg-slate-800/80 bg-slate-200 text-slate-300 dark:text-slate-300 text-slate-700 text-[10px] sm:text-xs uppercase tracking-wider border-b border-slate-700">
+                            <tr class="bg-slate-200 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 text-[10px] sm:text-xs uppercase tracking-wider border-b border-slate-300 dark:border-slate-700">
                                 <th class="p-2 sm:p-4 w-12 text-center">No</th>
                                 <th class="p-2 sm:p-4" data-i18n="thCategory">Kategori & Detail Penilaian</th>
                                 <th class="p-2 sm:p-4 w-20 sm:w-28 text-center" data-i18n="thCheck">Ceklis</th>
                                 <th class="p-2 sm:p-4 w-1/3" data-i18n="thNotes">Komentar / Catatan</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-800 text-xs sm:text-sm" id="checklistTableBody">
-                            <tr class="bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-400">A. DigiX</td></tr>
+                        <tbody class="divide-y divide-slate-300 dark:divide-slate-800 text-xs sm:text-sm" id="checklistTableBody">
+                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">A. DigiX</td></tr>
                             <tr data-kategori="DigiX" data-detail="Materi Deliver: Staff DW sudah mengetahui materi DigiX">
-                                <td class="p-2 sm:p-3 text-center text-slate-400">1</td>
-                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah mengetahui materi DigiX</td>
-                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">1</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah mengetahui materi DigiX</td>
+                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
                             <tr data-kategori="Roleplay DigiX" data-detail="Roleplay: Staff DW sudah melakukan Roleplay DigiX">
-                                <td class="p-2 sm:p-3 text-center text-slate-400">2</td>
-                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah melakukan Roleplay DigiX</td>
-                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">2</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah melakukan Roleplay DigiX</td>
+                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
 
-                            <tr class="bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-400">B. How to Activation</td></tr>
+                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">B. How to Activation</td></tr>
                             <tr data-kategori="How to Activation" data-detail="Materi Deliver: Staff DW sudah mengetahui langkah - langkah melakukan aktifasi device">
-                                <td class="p-2 sm:p-3 text-center text-slate-400">3</td>
-                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah mengetahui langkah - langkah melakukan aktifasi device</td>
-                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">3</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah mengetahui langkah - langkah melakukan aktifasi device</td>
+                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
 
-                            <tr class="bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-400">C. iPhone 18 (Sekilas Pandang)</td></tr>
+                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">C. iPhone 18 (Sekilas Pandang)</td></tr>
                             <tr data-kategori="iPhone 18 (Sekilas Pandang)" data-detail="iPhone 18: Staff DW sudah mengetahui dan mempelajari iPhone 18-Sekilas Pandang">
-                                <td class="p-2 sm:p-3 text-center text-slate-400">4</td>
-                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah mengetahui dan mempelajari "iPhone 18-Sekilas Pandang"</td>
-                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">4</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah mengetahui dan mempelajari "iPhone 18-Sekilas Pandang"</td>
+                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
 
-                            <tr class="bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-400">D. Roleplay</td></tr>
+                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">D. Roleplay</td></tr>
                             <tr data-kategori="Roleplay Usher" data-detail="Usher: Staff DW melakukan roleplay sebagai USHER ketika NPI">
-                                <td class="p-2 sm:p-3 text-center text-slate-400">5</td>
-                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW melakukan roleplay sebagai USHER ketika NPI</td>
-                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">5</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW melakukan roleplay sebagai USHER ketika NPI</td>
+                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
                             <tr data-kategori="Roleplay Menawarkan Aksesoris" data-detail="Accessories: Staff DW sudah melakukan Roleplay bagaimana menawarkan Accessories ketika NPI">
-                                <td class="p-2 sm:p-3 text-center text-slate-400">6</td>
-                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah melakukan Roleplay bagaimana menawarkan Accessories ketika NPI</td>
-                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">6</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah melakukan Roleplay bagaimana menawarkan Accessories ketika NPI</td>
+                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
                             <tr data-kategori="Roleplay Aktivasi Unit" data-detail="Activator: Staff DW sudah melakukan Roleplay bagaimana caranya aktifasi unit ketika NPI">
-                                <td class="p-2 sm:p-3 text-center text-slate-400">7</td>
-                                <td class="p-2 sm:p-3 dark:text-slate-200 text-slate-800">Staff DW sudah melakukan Roleplay bagaimana caranya aktifasi unit ketika NPI</td>
-                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-500 rounded bg-slate-950 border-slate-700 cursor-pointer"></td>
-                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-slate-950 dark:bg-slate-950 bg-white border border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-200 dark:text-slate-200 text-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
+                                <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">7</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah melakukan Roleplay bagaimana caranya aktifasi unit ketika NPI</td>
+                                <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
+                                <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -163,64 +162,71 @@
         </div>
 
         <!-- 2. TAB DASHBOARD & REPORT MANAGEMENT -->
-        <div id="dashboardTab" class="hidden bg-slate-900/90 dark:bg-slate-900/90 bg-white border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10 space-y-6 sm:space-y-8">
-            <div class="flex flex-col gap-4 border-b border-slate-800 pb-4 sm:pb-6">
+        <div id="dashboardTab" class="hidden bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10 space-y-6 sm:space-y-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-300 dark:border-slate-800 pb-4 sm:pb-6 gap-4">
                 <div>
-                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20" data-i18n="badgeSummary">Executive Summary</span>
-                    <h2 class="text-xl sm:text-2xl font-bold mt-2 dark:text-white text-slate-900" data-i18n="dashboardTitle">Dashboard Report Management</h2>
+                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-200 dark:border-indigo-500/20" data-i18n="badgeSummary">Executive Summary</span>
+                    <h2 class="text-xl sm:text-2xl font-bold mt-2 text-slate-900 dark:text-white" data-i18n="dashboardTitle">Dashboard Report Management</h2>
                 </div>
-                <!-- Tombol Action Responsive -->
-                <div class="grid grid-cols-3 gap-2">
-                    <button onclick="fetchSheetData()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-2 py-2.5 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1" data-i18n="btnRefresh">🔄 Refresh</button>
-                    <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-2 py-2.5 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1" data-i18n="btnExcel">📊 Excel</button>
-                    <button onclick="exportToPDF()" class="bg-rose-600 hover:bg-rose-500 text-white font-medium px-2 py-2.5 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1" data-i18n="btnPDF">📄 PDF</button>
+                <!-- Tombol Refresh dipisah di atas -->
+                <div>
+                    <button onclick="fetchSheetData()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2.5 rounded-xl text-xs sm:text-sm transition shadow-lg flex items-center gap-2" data-i18n="btnRefresh">🔄 Refresh Data</button>
                 </div>
             </div>
 
             <!-- Bagian Summary Cards Detail -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400" data-i18n="cardDigix">DigiX (Materi)</p>
-                    <h3 id="statDigix" class="text-xl sm:text-2xl font-bold dark:text-white text-slate-900 mt-1">0</h3>
+                <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-600 dark:text-slate-400" data-i18n="cardDigix">DigiX (Materi)</p>
+                    <h3 id="statDigix" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400" data-i18n="cardActivation">How to Activation</p>
-                    <h3 id="statActivation" class="text-xl sm:text-2xl font-bold dark:text-white text-slate-900 mt-1">0</h3>
+                <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-600 dark:text-slate-400" data-i18n="cardActivation">How to Activation</p>
+                    <h3 id="statActivation" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400" data-i18n="cardIphone">iPhone 18 (Sekilas)</p>
-                    <h3 id="statIphone" class="text-xl sm:text-2xl font-bold dark:text-white text-slate-900 mt-1">0</h3>
+                <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-600 dark:text-slate-400" data-i18n="cardIphone">iPhone 18 (Sekilas)</p>
+                    <h3 id="statIphone" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400" data-i18n="cardRpDigix">Roleplay DigiX</p>
-                    <h3 id="statRpDigix" class="text-xl sm:text-2xl font-bold text-indigo-400 mt-1">0</h3>
+                <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-600 dark:text-slate-400" data-i18n="cardRpDigix">Roleplay DigiX</p>
+                    <h3 id="statRpDigix" class="text-xl sm:text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400" data-i18n="cardUsher">Roleplay Usher</p>
-                    <h3 id="statUsher" class="text-xl sm:text-2xl font-bold text-indigo-400 mt-1">0</h3>
+                <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-600 dark:text-slate-400" data-i18n="cardUsher">Roleplay Usher</p>
+                    <h3 id="statUsher" class="text-xl sm:text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400" data-i18n="cardAcc">Menawarkan Aksesoris</p>
-                    <h3 id="statAcc" class="text-xl sm:text-2xl font-bold text-indigo-400 mt-1">0</h3>
+                <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-600 dark:text-slate-400" data-i18n="cardAcc">Menawarkan Aksesoris</p>
+                    <h3 id="statAcc" class="text-xl sm:text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400" data-i18n="cardActUnit">Aktivasi Unit</p>
-                    <h3 id="statActUnit" class="text-xl sm:text-2xl font-bold text-indigo-400 mt-1">0</h3>
+                <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-600 dark:text-slate-400" data-i18n="cardActUnit">Aktivasi Unit</p>
+                    <h3 id="statActUnit" class="text-xl sm:text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">0</h3>
                 </div>
-                <div class="bg-slate-800/40 dark:bg-slate-800/40 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <p class="text-xs text-slate-400" data-i18n="cardTotal">Total Keseluruhan</p>
-                    <h3 id="statTotal" class="text-xl sm:text-2xl font-bold text-emerald-400 mt-1">0</h3>
+                <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-800 rounded-xl p-3 sm:p-4">
+                    <p class="text-xs text-slate-600 dark:text-slate-400" data-i18n="cardTotal">Total Keseluruhan</p>
+                    <h3 id="statTotal" class="text-xl sm:text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">0</h3>
                 </div>
             </div>
 
-            <!-- Area Container untuk Export PDF -->
-            <div id="pdfContainer" class="space-y-4">
-                <div class="bg-slate-800/20 dark:bg-slate-800/20 bg-slate-50 border border-slate-800 rounded-xl p-3 sm:p-4">
-                    <h3 class="text-sm sm:text-lg font-semibold text-indigo-300 mb-3" data-i18n="tableTitle">Tabel Mirror Google Sheet</h3>
+            <!-- Area Container untuk Export PDF & Tabel -->
+            <div id="pdfContainer" class="space-y-4 bg-white dark:bg-transparent p-2 sm:p-0 rounded-xl">
+                <div class="bg-slate-50 dark:bg-slate-800/20 border border-slate-300 dark:border-slate-800 rounded-xl p-3 sm:p-4 space-y-4">
+                    
+                    <!-- Header Tabel & Tombol Export dipindah tepat di atas tabel -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <h3 class="text-sm sm:text-lg font-semibold text-indigo-600 dark:text-indigo-300" data-i18n="tableTitle">Tabel Mirror Google Sheet</h3>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <button onclick="exportToExcel()" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExcel">📊 Excel</button>
+                            <button onclick="exportToPDF()" class="flex-1 sm:flex-none bg-rose-600 hover:bg-rose-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnPDF">📄 PDF</button>
+                        </div>
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-xs sm:text-sm min-w-[600px]" id="reportTable">
                             <thead>
-                                <tr class="bg-slate-800 dark:bg-slate-800 bg-slate-200 text-slate-300 dark:text-slate-300 text-slate-700 text-[10px] sm:text-xs uppercase border-b border-slate-700">
+                                <tr class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[10px] sm:text-xs uppercase border-b border-slate-300 dark:border-slate-700">
                                     <th class="p-2 sm:p-3" data-i18n="thTime">Timestamp</th>
                                     <th class="p-2 sm:p-3" data-i18n="thStaff">Nama Staff</th>
                                     <th class="p-2 sm:p-3" data-i18n="thDate">Tanggal</th>
@@ -231,13 +237,18 @@
                                     <th class="p-2 sm:p-3" data-i18n="thNote">Catatan</th>
                                 </tr>
                             </thead>
-                            <tbody id="reportTableBody" class="divide-y divide-slate-800 dark:text-slate-300 text-slate-700">
-                                <tr><td colspan="8" class="p-4 text-center text-slate-500" data-i18n="tableLoading">Klik tombol "Refresh" untuk memuat data.</td></tr>
+                            <tbody id="reportTableBody" class="divide-y divide-slate-300 dark:divide-slate-800 text-slate-800 dark:text-slate-300">
+                                <tr><td colspan="8" class="p-4 text-center text-slate-500" data-i18n="tableLoading">Klik tombol "Refresh Data" untuk memuat data.</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- FOOTER / CREDIT -->
+        <div class="text-center py-4 text-xs font-medium text-slate-500 dark:text-slate-400">
+            Concept and Curation by Novi Riyanto
         </div>
 
     </div>
@@ -261,7 +272,7 @@
                 btnSubmit: "Submit Penilaian",
                 badgeSummary: "Executive Summary",
                 dashboardTitle: "Dashboard Report Management",
-                btnRefresh: "🔄 Refresh",
+                btnRefresh: "🔄 Refresh Data",
                 btnExcel: "📊 Excel",
                 btnPDF: "📄 PDF",
                 cardDigix: "DigiX (Materi)",
@@ -281,7 +292,7 @@
                 thDetail: "Detail Penilaian",
                 thStatus: "Status",
                 thNote: "Catatan",
-                tableLoading: "Klik tombol \"Refresh\" untuk memuat data."
+                tableLoading: "Klik tombol \"Refresh Data\" untuk memuat data."
             },
             en: {
                 formTitle: "DAILY WORKER CHECKLIST FORM",
@@ -294,7 +305,7 @@
                 btnSubmit: "Submit Assessment",
                 badgeSummary: "Executive Summary",
                 dashboardTitle: "Dashboard Report Management",
-                btnRefresh: "🔄 Refresh",
+                btnRefresh: "🔄 Refresh Data",
                 btnExcel: "📊 Excel",
                 btnPDF: "📄 PDF",
                 cardDigix: "DigiX (Material)",
@@ -314,7 +325,7 @@
                 thDetail: "Assessment Detail",
                 thStatus: "Status",
                 thNote: "Notes",
-                tableLoading: "Click \"Refresh\" button to load data."
+                tableLoading: "Click \"Refresh Data\" button to load data."
             }
         };
 
@@ -371,7 +382,7 @@
                 storeSuggestions.classList.remove('hidden');
                 filtered.forEach(item => {
                     const div = document.createElement('div');
-                    div.className = "p-2.5 hover:bg-indigo-600 hover:text-white cursor-pointer text-xs text-slate-200 border-b border-slate-800";
+                    div.className = "p-2.5 hover:bg-indigo-600 hover:text-white cursor-pointer text-xs text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900";
                     div.innerText = item;
                     div.onclick = () => {
                         storeInput.value = item;
@@ -402,12 +413,12 @@
                 formTab.classList.remove('hidden');
                 dashboardTab.classList.add('hidden');
                 btnForm.className = "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center";
-                btnDashboard.className = "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800 text-center";
+                btnDashboard.className = "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center";
             } else {
                 formTab.classList.add('hidden');
                 dashboardTab.classList.remove('hidden');
                 btnDashboard.className = "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center";
-                btnForm.className = "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800 text-center";
+                btnForm.className = "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center";
                 
                 fetchSheetData();
             }
@@ -415,7 +426,7 @@
 
         function fetchSheetData() {
             const tbody = document.getElementById('reportTableBody');
-            tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-indigo-400 animate-pulse">Menyelaraskan data dengan Google Sheet...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-indigo-600 dark:text-indigo-400 animate-pulse">Menyelaraskan data dengan Google Sheet...</td></tr>`;
 
             fetch(scriptURL)
                 .then(response => response.json())
@@ -425,7 +436,7 @@
                 })
                 .catch(error => {
                     console.error('Error fetching sheet data:', error);
-                    tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-400">Gagal memuat data. Periksa koneksi atau deploy.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500 dark:text-rose-400">Gagal memuat data. Periksa koneksi atau deploy.</td></tr>`;
                 });
         }
 
@@ -435,7 +446,6 @@
         form.addEventListener('submit', e => {
             e.preventDefault();
             
-            // Validasi store hidden
             if(!storeHidden.value) {
                 storeHidden.value = storeInput.value;
             }
@@ -446,7 +456,6 @@
             const nama = document.getElementById('nama').value;
             const rawDate = document.getElementById('tanggal').value;
             
-            // Format Tanggal ke Kalender Indonesia (Contoh: Rabu, 30 September 2026)
             let formattedDate = rawDate;
             if(rawDate) {
                 const dateObj = new Date(rawDate);
@@ -537,16 +546,16 @@
                     else if (kat === 'Roleplay Aktivasi Unit') countActUnit++;
 
                     const tr = document.createElement('tr');
-                    tr.className = "border-b border-slate-800/60 hover:bg-slate-800/30";
+                    tr.className = "border-b border-slate-200 dark:border-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800/30";
                     tr.innerHTML = `
-                        <td class="p-2 sm:p-3 text-[11px] text-slate-400">${item.timestamp}</td>
-                        <td class="p-2 sm:p-3 font-medium dark:text-white text-slate-900">${item.nama}</td>
-                        <td class="p-2 sm:p-3 dark:text-slate-300 text-slate-700">${item.tanggal}</td>
-                        <td class="p-2 sm:p-3 dark:text-slate-300 text-slate-700 text-[11px]">${item.store}</td>
-                        <td class="p-2 sm:p-3 text-indigo-400">${item.kategori}</td>
-                        <td class="p-2 sm:p-3 text-[11px] dark:text-slate-300 text-slate-700">${item.detail}</td>
-                        <td class="p-2 sm:p-3 text-center"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-400">${item.ceklis}</span></td>
-                        <td class="p-2 sm:p-3 text-[11px] text-slate-400">${item.komentar}</td>
+                        <td class="p-2 sm:p-3 text-[11px] text-slate-500 dark:text-slate-400">${item.timestamp}</td>
+                        <td class="p-2 sm:p-3 font-medium text-slate-900 dark:text-white">${item.nama}</td>
+                        <td class="p-2 sm:p-3 text-slate-700 dark:text-slate-300">${item.tanggal}</td>
+                        <td class="p-2 sm:p-3 text-slate-700 dark:text-slate-300 text-[11px]">${item.store}</td>
+                        <td class="p-2 sm:p-3 text-indigo-600 dark:text-indigo-400">${item.kategori}</td>
+                        <td class="p-2 sm:p-3 text-[11px] text-slate-700 dark:text-slate-300">${item.detail}</td>
+                        <td class="p-2 sm:p-3 text-center"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400">${item.ceklis}</span></td>
+                        <td class="p-2 sm:p-3 text-[11px] text-slate-500 dark:text-slate-400">${item.komentar}</td>
                     `;
                     tbody.appendChild(tr);
                 });
