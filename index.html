@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Ceklis Daily Worker & Dashboard - Digimap</title>
+    <title>Form Training dan Roleplay Daily Worker & Dashboard - Digimap</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
         <div id="formTab" class="bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10">
             <div class="text-center border-b border-slate-800 pb-4 sm:pb-6 mb-6 sm:mb-8">
                 <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Digimap Retail Training</span>
-                <h1 class="text-xl sm:text-3xl font-bold mt-2 sm:mt-3 text-white tracking-tight">FORM CEKLIS DAILY WORKER</h1>
+                <h1 class="text-xl sm:text-3xl font-bold mt-2 sm:mt-3 text-white tracking-tight">FORM</h1>
             </div>
 
             <form id="dwForm" class="space-y-6 sm:space-y-8">
@@ -240,7 +240,7 @@
         <div id="dashboardTab" class="hidden bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10 space-y-6 sm:space-y-8">
             <div class="flex flex-col gap-4 border-b border-slate-800 pb-4 sm:pb-6">
                 <div>
-                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Executive Summary</span>
+                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Summary</span>
                     <h2 class="text-xl sm:text-2xl font-bold mt-2 text-white">Dashboard Report Management</h2>
                 </div>
                 <!-- Tombol Action Responsive (Mobile Stack) -->
@@ -411,7 +411,7 @@
                 body: JSON.stringify(payload)
             })
             .then(() => {
-                alert('Form Ceklis Daily Worker berhasil disubmit ke Google Sheet!');
+                alert('Form berhasil disubmit!');
                 form.reset();
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Submit Penilaian';
