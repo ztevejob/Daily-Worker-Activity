@@ -299,7 +299,7 @@
 
     <!-- Script Utama -->
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzDl9JUW-vnFfqUneToMTu3nVrGpPLiC7NqrGlVziSZU9Zc8MA0lmD67DJW9ocL24izBg/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxg_Okc4wygiclJKKka778QMXUenTpdAms7vO0SSD3EoZRRs4D3uojI3QXUQ4N3YDAsUQ/exec';
         let sheetData = [];
 
         function switchTab(tabId) {
@@ -329,7 +329,6 @@
             const tbody = document.getElementById('reportTableBody');
             tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-indigo-400 animate-pulse">Menyelaraskan data dengan Google Sheet...</td></tr>`;
 
-            // Menggunakan teknik JSONP / mode cors untuk ambil data doGet
             fetch(scriptURL)
                 .then(response => response.json())
                 .then(data => {
