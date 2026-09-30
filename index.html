@@ -276,11 +276,6 @@
             </div>
         </div>
 
-        <!-- FOOTER / CREDIT -->
-        <div class="text-center py-4 text-xs font-medium text-slate-500 dark:text-slate-400">
-            Concept and Curation by Novi Riyanto
-        </div>
-
     </div>
 
     <!-- Script Utama -->
@@ -397,7 +392,6 @@
                 html.classList.add('dark');
                 document.getElementById('themeLabel').innerText = "Gelap";
             }
-            // Update warna chart jika mode diganti
             if(summaryChartInstance) {
                 renderChart([
                     document.getElementById('statDigix').innerText,
@@ -645,7 +639,6 @@
                 { Kategori: "Total Keseluruhan", Total: total }
             ];
 
-            // Render Chart
             renderChart([countDigix, countActivation, countIphone, countRpDigix, countUsher, countAcc, countActUnit]);
         }
 
