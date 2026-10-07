@@ -174,42 +174,24 @@
                 </div>
             </div>
 
-            <!-- METRIK UTAMA TAMBAHAN (Store Melaporkan & Staff Unique DW) -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-                <div class="bg-gradient-to-br from-indigo-500/10 to-indigo-600/5 dark:from-indigo-500/20 dark:to-indigo-600/10 border border-indigo-200 dark:border-indigo-500/30 rounded-2xl p-4 sm:p-5 shadow-sm">
+            <!-- METRIK UTAMA HIGHLIGHT (Toko Melaporkan & Staff Unique DW) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-gradient-to-br from-indigo-500/10 to-indigo-600/5 dark:from-indigo-500/20 dark:to-indigo-600/10 border border-indigo-200 dark:border-indigo-500/30 rounded-2xl p-5 shadow-sm">
                     <div class="flex items-center justify-between">
-                        <p class="text-xs font-medium text-indigo-600 dark:text-indigo-400 uppercase tracking-wider" data-i18n="cardStoresReported">🏢 Toko Melaporkan</p>
-                        <span class="text-lg">🏪</span>
+                        <p class="text-xs sm:text-sm font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider" data-i18n="cardStoresReported">🏢 Toko Melaporkan</p>
+                        <span class="text-2xl">🏪</span>
                     </div>
-                    <h3 id="statStoresCount" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">0</h3>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Store Unik Terdaftar</p>
+                    <h3 id="statStoresCount" class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-3">0</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Jumlah Store Unik Terdaftar</p>
                 </div>
 
-                <div class="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 dark:from-emerald-500/20 dark:to-emerald-600/10 border border-emerald-200 dark:border-emerald-500/30 rounded-2xl p-4 sm:p-5 shadow-sm">
+                <div class="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 dark:from-emerald-500/20 dark:to-emerald-600/10 border border-emerald-200 dark:border-emerald-500/30 rounded-2xl p-5 shadow-sm">
                     <div class="flex items-center justify-between">
-                        <p class="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wider" data-i18n="cardUniqueStaff">👨‍💼 Total Staff DW</p>
-                        <span class="text-lg">👥</span>
+                        <p class="text-xs sm:text-sm font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider" data-i18n="cardUniqueStaff">👨‍💼 Total Staff DW</p>
+                        <span class="text-2xl">👥</span>
                     </div>
-                    <h3 id="statUniqueStaff" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">0</h3>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Staff Unik Ditraining</p>
-                </div>
-
-                <div class="bg-gradient-to-br from-amber-500/10 to-amber-600/5 dark:from-amber-500/20 dark:to-amber-600/10 border border-amber-200 dark:border-amber-500/30 rounded-2xl p-4 sm:p-5 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <p class="text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wider" data-i18n="cardTotalEntries">📊 Capaian Poin</p>
-                        <span class="text-lg">✅</span>
-                    </div>
-                    <h3 id="statTotalEntries" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">0</h3>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Poin Ceklis Disubmit</p>
-                </div>
-
-                <div class="bg-gradient-to-br from-purple-500/10 to-purple-600/5 dark:from-purple-500/20 dark:to-purple-600/10 border border-purple-200 dark:border-purple-500/30 rounded-2xl p-4 sm:p-5 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <p class="text-xs font-medium text-purple-600 dark:text-purple-400 uppercase tracking-wider" data-i18n="cardAvgPerStaff">📈 Rata-Rata/Staff</p>
-                        <span class="text-lg">🎯</span>
-                    </div>
-                    <h3 id="statAvgPerStaff" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">0</h3>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Modul per Karyawan DW</p>
+                    <h3 id="statUniqueStaff" class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-3">0</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Karyawan Daily Worker Unik Ditraining</p>
                 </div>
             </div>
 
@@ -273,7 +255,7 @@
                     
                     <!-- Header Tabel, Filter Toko, Filter Nama Staff & Tombol Export -->
                     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3">
-                        <h3 class="text-sm sm:text-lg font-semibold text-indigo-600 dark:text-indigo-300" data-i18n="tableTitle">Tabel Mirror Google Sheet</h3>
+                        <h3 class="text-sm sm:text-lg font-semibold text-indigo-600 dark:text-indigo-300" data-i18n="tableTitle">Laporan Detail Penilaian Training Daily Worker</h3>
                         
                         <!-- Filter Kotak Pencarian & Filter Toko -->
                         <div class="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
@@ -346,8 +328,6 @@
                 btnExportSummaryPDF: "📄 Export Summary PDF",
                 cardStoresReported: "🏢 Toko Melaporkan",
                 cardUniqueStaff: "👨‍💼 Total Staff DW",
-                cardTotalEntries: "📊 Capaian Poin",
-                cardAvgPerStaff: "📈 Rata-Rata/Staff",
                 cardDigix: "DigiX (Materi)",
                 cardActivation: "How to Activation",
                 cardIphone: "iPhone 18 (Sekilas)",
@@ -356,7 +336,7 @@
                 cardAcc: "Menawarkan Aksesoris",
                 cardActUnit: "Aktivasi Unit",
                 cardTotal: "Total Keseluruhan",
-                tableTitle: "Tabel Mirror Google Sheet",
+                tableTitle: "Laporan Detail Penilaian Training Daily Worker",
                 thTime: "Timestamp",
                 thStaff: "Nama Staff",
                 thDate: "Tanggal",
@@ -386,9 +366,7 @@
                 btnExportSummaryExcel: "📊 Export Summary Excel",
                 btnExportSummaryPDF: "📄 Export Summary PDF",
                 cardStoresReported: "🏢 Reported Stores",
-                cardUniqueStaff: "👨‍💼 Total Unique Staff",
-                cardTotalEntries: "📊 Total Checklist Score",
-                cardAvgPerStaff: "📈 Avg Modules/Staff",
+                cardUniqueStaff: "👨‍💼 Total Unique DW Staff",
                 cardDigix: "DigiX (Material)",
                 cardActivation: "How to Activation",
                 cardIphone: "iPhone 18 (Overview)",
@@ -397,7 +375,7 @@
                 cardAcc: "Offering Accessories",
                 cardActUnit: "Device Activation",
                 cardTotal: "Overall Total",
-                tableTitle: "Google Sheet Mirror Table",
+                tableTitle: "Daily Worker Training Assessment Log",
                 thTime: "Timestamp",
                 thStaff: "Staff Name",
                 thDate: "Date",
@@ -508,7 +486,7 @@
             }
         });
 
-        // PERBAIKAN: Fungsi Pindah Tab Navigasi
+        // Fungsi Pindah Tab Navigasi
         function switchTab(tabId) {
             const formTab = document.getElementById('formTab');
             const dashboardTab = document.getElementById('dashboardTab');
@@ -532,7 +510,7 @@
             }
         }
 
-        // PERBAIKAN: Memuat Data Google Sheet
+        // Memuat Data Google Sheet
         function fetchSheetData() {
             const tbody = document.getElementById('reportTableBody');
             if (tbody) {
@@ -555,7 +533,7 @@
                 .catch(error => {
                     console.error('Error fetching sheet data:', error);
                     if (tbody) {
-                        tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500 dark:text-rose-400 font-semibold">Gagal memuat data. Periksa koneksi internet atau web app deployment Google Apps Script Anda.</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500 dark:text-rose-400 font-semibold">Gagal memuat data. Periksa koneksi internet atau deployment Google Apps Script Anda.</td></tr>`;
                     }
                 });
         }
@@ -642,7 +620,7 @@
 
         let summaryDataObj = {};
 
-        // PERBAIKAN: Perhitungan Toko Melaporkan & Unique Daily Worker
+        // Perhitungan Toko Melaporkan & Unique Daily Worker
         function renderDashboard() {
             const tbody = document.getElementById('reportTableBody');
             if (!tbody) return;
@@ -696,8 +674,6 @@
             const totalUniqueStaffCount = uniqueStaffNames.size;
             document.getElementById('statStoresCount').innerText = uniqueStores.size;
             document.getElementById('statUniqueStaff').innerText = totalUniqueStaffCount;
-            document.getElementById('statTotalEntries').innerText = total;
-            document.getElementById('statAvgPerStaff').innerText = totalUniqueStaffCount > 0 ? (total / totalUniqueStaffCount).toFixed(1) : '0';
 
             document.getElementById('statDigix').innerText = countDigix;
             document.getElementById('statActivation').innerText = countActivation;
@@ -818,10 +794,10 @@
             const worksheet = XLSX.utils.json_to_sheet(sheetData);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Ceklis DW");
-            XLSX.writeFile(workbook, "Report_Ceklis_Daily_Worker_Mirror.xlsx");
+            XLSX.writeFile(workbook, "Report_Ceklis_Daily_Worker.xlsx");
         }
 
-        // PERBAIKAN: Export PDF Tabel Utama
+        // Export PDF Tabel Utama
         function exportToPDF() {
             if (!sheetData || sheetData.length === 0) {
                 alert('Belum ada data untuk diexport!');
@@ -831,7 +807,7 @@
             const element = document.getElementById('pdfContainer');
             const options = {
                 margin:       [10, 10, 10, 10],
-                filename:     'Report_Ceklis_Daily_Worker_Mirror.pdf',
+                filename:     'Report_Ceklis_Daily_Worker.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, scrollY: 0, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
@@ -856,7 +832,7 @@
             XLSX.writeFile(workbook, "Summary_Ceklis_Daily_Worker.xlsx");
         }
 
-        // PERBAIKAN: Export PDF Summary
+        // Export PDF Summary
         function exportSummaryPDF() {
             if (!summaryDataObj || summaryDataObj.length === 0) {
                 alert('Belum ada data summary untuk diexport!');
