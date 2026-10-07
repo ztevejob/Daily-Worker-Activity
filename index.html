@@ -39,13 +39,13 @@
                     <option value="id">Bahasa Indonesia</option>
                     <option value="en">English</option>
                 </select>
-                <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white transition cursor-pointer">
+                <button type="button" onclick="toggleTheme()" class="cursor-pointer p-2 rounded-xl bg-slate-200 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white transition">
                     🌓 <span id="themeLabel">Mode</span>
                 </button>
             </div>
         </div>
 
-        <!-- NAVIGASI MENU TAB (Perbaikan z-index & cursor) -->
+        <!-- Navigasi Menu Tab (Memakai z-20 & cursor-pointer) -->
         <div class="flex justify-center gap-2 sm:gap-4 border-b border-slate-300 dark:border-slate-800 pb-4 relative z-20">
             <button type="button" onclick="switchTab('formTab')" id="btnFormTab" class="cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center select-none">Form Ceklis</button>
             <button type="button" onclick="switchTab('dashboardTab')" id="btnDashboardTab" class="cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center select-none">Dashboard Report</button>
@@ -68,3 +68,40 @@
                             <input type="text" id="nama" required class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                         </div>
                         <div>
+                            <label class="block text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" data-i18n="lblDate">Tanggal Pelatihan</label>
+                            <input type="date" id="tanggal" required class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Store dengan Input Pencarian (Autosuggestion) -->
+                    <div class="relative">
+                        <label class="block text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" data-i18n="lblStore">Store / Lokasi (Ketik kode atau nama store)</label>
+                        <input type="text" id="storeInput" placeholder="Contoh: M131 atau Grand Indonesia..." autocomplete="off" required class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <input type="hidden" id="store" required>
+                        <div id="storeSuggestions" class="absolute z-10 left-0 right-0 mt-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-2xl max-h-48 overflow-y-auto hidden"></div>
+                    </div>
+                </div>
+
+                <!-- B. PETUNJUK -->
+                <div class="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-500/20 rounded-xl p-3 sm:p-5 text-xs sm:text-sm text-indigo-900 dark:text-indigo-200 space-y-1">
+                    <p class="font-semibold text-indigo-600 dark:text-indigo-400">B. PETUNJUK & PANDUAN PENILAIAN</p>
+                    <p>1. Pastikan semua Staff Daily Worker sudah mendapatkan Training DigiX/Activation Device/Roleplay oleh ST/SPV.</p>
+                    <p>2. Berikan Komentar/Catatan untuk peserta ketika mengikuti sesi Training.</p>
+                </div>
+
+                <!-- TABEL PENILAIAN -->
+                <div class="overflow-x-auto border border-slate-300 dark:border-slate-800 rounded-xl">
+                    <table class="w-full text-left border-collapse min-w-[500px] sm:min-w-full">
+                        <thead>
+                            <tr class="bg-slate-200 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 text-[10px] sm:text-xs uppercase tracking-wider border-b border-slate-300 dark:border-slate-700">
+                                <th class="p-2 sm:p-4 w-12 text-center">No</th>
+                                <th class="p-2 sm:p-4" data-i18n="thCategory">Kategori & Detail Penilaian</th>
+                                <th class="p-2 sm:p-4 w-20 sm:w-28 text-center" data-i18n="thCheck">Ceklis</th>
+                                <th class="p-2 sm:p-4 w-1/3" data-i18n="thNotes">Komentar / Catatan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-300 dark:divide-slate-800 text-xs sm:text-sm" id="checklistTableBody">
+                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">A. DigiX</td></tr>
+                            <tr data-kategori="DigiX" data-detail="Materi Deliver: Staff DW sudah mengetahui materi DigiX">
+                                <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">1</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah
