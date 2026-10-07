@@ -39,16 +39,16 @@
                     <option value="id">Bahasa Indonesia</option>
                     <option value="en">English</option>
                 </select>
-                <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white transition">
+                <button type="button" onclick="toggleTheme()" class="cursor-pointer p-2 rounded-xl bg-slate-200 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white transition">
                     🌓 <span id="themeLabel">Mode</span>
                 </button>
             </div>
         </div>
 
         <!-- Navigasi Menu Tab -->
-        <div class="flex justify-center gap-2 sm:gap-4 border-b border-slate-300 dark:border-slate-800 pb-4">
-            <button onclick="switchTab('formTab')" id="btnFormTab" class="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center">Form Ceklis</button>
-            <button onclick="switchTab('dashboardTab')" id="btnDashboardTab" class="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center">Dashboard Report</button>
+        <div class="flex justify-center gap-2 sm:gap-4 border-b border-slate-300 dark:border-slate-800 pb-4 relative z-20">
+            <button type="button" onclick="switchTab('formTab')" id="btnFormTab" class="cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center select-none">Form Ceklis</button>
+            <button type="button" onclick="switchTab('dashboardTab')" id="btnDashboardTab" class="cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center select-none">Dashboard Report</button>
         </div>
 
         <!-- 1. TAB FORM CEKLIS -->
@@ -78,7 +78,7 @@
                         <label class="block text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" data-i18n="lblStore">Store / Lokasi (Ketik kode atau nama store)</label>
                         <input type="text" id="storeInput" placeholder="Contoh: M131 atau Grand Indonesia..." autocomplete="off" required class="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 sm:px-4 py-2.5 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                         <input type="hidden" id="store" required>
-                        <div id="storeSuggestions" class="absolute z-50 left-0 right-0 mt-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-2xl max-h-48 overflow-y-auto hidden"></div>
+                        <div id="storeSuggestions" class="absolute z-10 left-0 right-0 mt-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-2xl max-h-48 overflow-y-auto hidden"></div>
                     </div>
                 </div>
 
@@ -155,7 +155,7 @@
                 </div>
 
                 <div class="flex justify-end pt-2 sm:pt-4">
-                    <button type="submit" id="submitBtn" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-8 py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/30 flex justify-center items-center gap-2 text-sm sm:text-base" data-i18n="btnSubmit">
+                    <button type="submit" id="submitBtn" class="cursor-pointer w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-8 py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/30 flex justify-center items-center gap-2 text-sm sm:text-base" data-i18n="btnSubmit">
                         <span>Submit Penilaian</span>
                     </button>
                 </div>
@@ -170,7 +170,46 @@
                     <h2 class="text-xl sm:text-2xl font-bold mt-2 text-slate-900 dark:text-white" data-i18n="dashboardTitle">Dashboard Report Management</h2>
                 </div>
                 <div>
-                    <button onclick="fetchSheetData()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2.5 rounded-xl text-xs sm:text-sm transition shadow-lg flex items-center gap-2" data-i18n="btnRefresh">🔄 Refresh Data</button>
+                    <button type="button" onclick="fetchSheetData()" class="cursor-pointer bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2.5 rounded-xl text-xs sm:text-sm transition shadow-lg flex items-center gap-2" data-i18n="btnRefresh">🔄 Refresh Data</button>
+                </div>
+            </div>
+
+            <!-- METRIK UTAMA TAMBAHAN (Store Melaporkan & Staff Unique DW) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                <div class="bg-gradient-to-br from-indigo-500/10 to-indigo-600/5 dark:from-indigo-500/20 dark:to-indigo-600/10 border border-indigo-200 dark:border-indigo-500/30 rounded-2xl p-4 sm:p-5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-medium text-indigo-600 dark:text-indigo-400 uppercase tracking-wider" data-i18n="cardStoresReported">🏢 Toko Melaporkan</p>
+                        <span class="text-lg">🏪</span>
+                    </div>
+                    <h3 id="statStoresCount" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">0</h3>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Store Unik Terdaftar</p>
+                </div>
+
+                <div class="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 dark:from-emerald-500/20 dark:to-emerald-600/10 border border-emerald-200 dark:border-emerald-500/30 rounded-2xl p-4 sm:p-5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wider" data-i18n="cardUniqueStaff">👨‍💼 Total Staff DW</p>
+                        <span class="text-lg">👥</span>
+                    </div>
+                    <h3 id="statUniqueStaff" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">0</h3>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Staff Unik Ditraining</p>
+                </div>
+
+                <div class="bg-gradient-to-br from-amber-500/10 to-amber-600/5 dark:from-amber-500/20 dark:to-amber-600/10 border border-amber-200 dark:border-amber-500/30 rounded-2xl p-4 sm:p-5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wider" data-i18n="cardTotalEntries">📊 Capaian Poin</p>
+                        <span class="text-lg">✅</span>
+                    </div>
+                    <h3 id="statTotalEntries" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">0</h3>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Poin Ceklis Disubmit</p>
+                </div>
+
+                <div class="bg-gradient-to-br from-purple-500/10 to-purple-600/5 dark:from-purple-500/20 dark:to-purple-600/10 border border-purple-200 dark:border-purple-500/30 rounded-2xl p-4 sm:p-5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-medium text-purple-600 dark:text-purple-400 uppercase tracking-wider" data-i18n="cardAvgPerStaff">📈 Rata-Rata/Staff</p>
+                        <span class="text-lg">🎯</span>
+                    </div>
+                    <h3 id="statAvgPerStaff" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-2">0</h3>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Modul per Karyawan DW</p>
                 </div>
             </div>
 
@@ -179,8 +218,8 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <h3 class="text-sm sm:text-lg font-semibold text-indigo-600 dark:text-indigo-300" data-i18n="summaryTitle">Ringkasan Kategori (Summary)</h3>
                     <div class="flex gap-2 w-full sm:w-auto">
-                        <button onclick="exportSummaryExcel()" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExportSummaryExcel">📊 Export Summary Excel</button>
-                        <button onclick="exportSummaryPDF()" class="flex-1 sm:flex-none bg-rose-600 hover:bg-rose-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExportSummaryPDF">📄 Export Summary PDF</button>
+                        <button type="button" onclick="exportSummaryExcel()" class="cursor-pointer flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExportSummaryExcel">📊 Export Summary Excel</button>
+                        <button type="button" onclick="exportSummaryPDF()" class="cursor-pointer flex-1 sm:flex-none bg-rose-600 hover:bg-rose-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExportSummaryPDF">📄 Export Summary PDF</button>
                     </div>
                 </div>
 
@@ -248,8 +287,8 @@
                         </div>
 
                         <div class="flex gap-2 w-full lg:w-auto">
-                            <button onclick="exportToExcel()" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExcel">📊 Excel</button>
-                            <button onclick="exportToPDF()" class="flex-1 sm:flex-none bg-rose-600 hover:bg-rose-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnPDF">📄 PDF</button>
+                            <button type="button" onclick="exportToExcel()" class="cursor-pointer flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExcel">📊 Excel</button>
+                            <button type="button" onclick="exportToPDF()" class="cursor-pointer flex-1 sm:flex-none bg-rose-600 hover:bg-rose-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnPDF">📄 PDF</button>
                         </div>
                     </div>
 
@@ -305,6 +344,10 @@
                 chartTitle: "Grafik Performa Kategori Pelatihan",
                 btnExportSummaryExcel: "📊 Export Summary Excel",
                 btnExportSummaryPDF: "📄 Export Summary PDF",
+                cardStoresReported: "🏢 Toko Melaporkan",
+                cardUniqueStaff: "👨‍💼 Total Staff DW",
+                cardTotalEntries: "📊 Capaian Poin",
+                cardAvgPerStaff: "📈 Rata-Rata/Staff",
                 cardDigix: "DigiX (Materi)",
                 cardActivation: "How to Activation",
                 cardIphone: "iPhone 18 (Sekilas)",
@@ -342,6 +385,10 @@
                 chartTitle: "Training Category Performance Chart",
                 btnExportSummaryExcel: "📊 Export Summary Excel",
                 btnExportSummaryPDF: "📄 Export Summary PDF",
+                cardStoresReported: "🏢 Reported Stores",
+                cardUniqueStaff: "👨‍💼 Total Unique Staff",
+                cardTotalEntries: "📊 Total Checklist Score",
+                cardAvgPerStaff: "📈 Avg Modules/Staff",
                 cardDigix: "DigiX (Material)",
                 cardActivation: "How to Activation",
                 cardIphone: "iPhone 18 (Overview)",
@@ -367,7 +414,7 @@
             currentLang = document.getElementById('langSelect').value;
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (dict[currentLang][key]) {
+                if (dict[currentLang] && dict[currentLang][key]) {
                     el.innerText = dict[currentLang][key];
                 }
             });
@@ -377,7 +424,8 @@
         function updateClock() {
             const now = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
-            document.getElementById('liveClock').innerText = now.toLocaleDateString('id-ID', options);
+            const clockEl = document.getElementById('liveClock');
+            if (clockEl) clockEl.innerText = now.toLocaleDateString('id-ID', options);
         }
         setInterval(updateClock, 1000);
         updateClock();
@@ -412,180 +460,199 @@
 
         // Populate dropdown filter store
         const filterStoreSelect = document.getElementById('filterStoreSelect');
-        stores.forEach(storeName => {
-            const opt = document.createElement('option');
-            opt.value = storeName.toLowerCase();
-            opt.innerText = storeName;
-            filterStoreSelect.appendChild(opt);
-        });
+        if (filterStoreSelect) {
+            stores.forEach(storeName => {
+                const opt = document.createElement('option');
+                opt.value = storeName.toLowerCase();
+                opt.innerText = storeName;
+                filterStoreSelect.appendChild(opt);
+            });
+        }
 
         // Autocomplete Store Search
         const storeInput = document.getElementById('storeInput');
         const storeHidden = document.getElementById('store');
         const storeSuggestions = document.getElementById('storeSuggestions');
 
-        storeInput.addEventListener('input', function() {
-            const val = this.value.toLowerCase();
-            storeSuggestions.innerHTML = '';
-            if (!val) {
-                storeSuggestions.classList.add('hidden');
-                return;
-            }
-            const filtered = stores.filter(s => s.toLowerCase().includes(val));
-            if (filtered.length > 0) {
-                storeSuggestions.classList.remove('hidden');
-                filtered.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = "p-2.5 hover:bg-indigo-600 hover:text-white cursor-pointer text-xs text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900";
-                    div.innerText = item;
-                    div.onclick = () => {
-                        storeInput.value = item;
-                        storeHidden.value = item;
-                        storeSuggestions.classList.add('hidden');
-                    };
-                    storeSuggestions.appendChild(div);
-                });
-            } else {
-                storeSuggestions.classList.add('hidden');
-            }
-        });
+        if (storeInput) {
+            storeInput.addEventListener('input', function() {
+                const val = this.value.toLowerCase();
+                storeSuggestions.innerHTML = '';
+                if (!val) {
+                    storeSuggestions.classList.add('hidden');
+                    return;
+                }
+                const filtered = stores.filter(s => s.toLowerCase().includes(val));
+                if (filtered.length > 0) {
+                    storeSuggestions.classList.remove('hidden');
+                    filtered.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = "p-2.5 hover:bg-indigo-600 hover:text-white cursor-pointer text-xs text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900";
+                        div.innerText = item;
+                        div.onclick = () => {
+                            storeInput.value = item;
+                            storeHidden.value = item;
+                            storeSuggestions.classList.add('hidden');
+                        };
+                        storeSuggestions.appendChild(div);
+                    });
+                } else {
+                    storeSuggestions.classList.add('hidden');
+                }
+            });
+        }
 
         document.addEventListener('click', function(e) {
-            if (!storeInput.contains(e.target) && !storeSuggestions.contains(e.target)) {
+            if (storeInput && storeSuggestions && !storeInput.contains(e.target) && !storeSuggestions.contains(e.target)) {
                 storeSuggestions.classList.add('hidden');
             }
         });
 
+        // PERBAIKAN: Fungsi Pindah Tab Navigasi
         function switchTab(tabId) {
             const formTab = document.getElementById('formTab');
             const dashboardTab = document.getElementById('dashboardTab');
             const btnForm = document.getElementById('btnFormTab');
             const btnDashboard = document.getElementById('btnDashboardTab');
 
+            if (storeSuggestions) storeSuggestions.classList.add('hidden');
+
             if (tabId === 'formTab') {
                 formTab.classList.remove('hidden');
                 dashboardTab.classList.add('hidden');
-                btnForm.className = "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center";
-                btnDashboard.className = "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center";
-            } else {
+                btnForm.className = "cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center select-none";
+                btnDashboard.className = "cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center select-none";
+            } else if (tabId === 'dashboardTab') {
                 formTab.classList.add('hidden');
                 dashboardTab.classList.remove('hidden');
-                btnDashboard.className = "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center";
-                btnForm.className = "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center";
+                btnDashboard.className = "cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center select-none";
+                btnForm.className = "cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center select-none";
                 
                 fetchSheetData();
             }
         }
 
+        // PERBAIKAN: Memuat Data Google Sheet
         function fetchSheetData() {
             const tbody = document.getElementById('reportTableBody');
-            tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-indigo-600 dark:text-indigo-400 animate-pulse">Menyelaraskan data dengan Google Sheet...</td></tr>`;
+            if (tbody) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-indigo-600 dark:text-indigo-400 animate-pulse font-medium">Menyelaraskan data dengan Google Sheet...</td></tr>`;
+            }
 
             fetch(scriptURL)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error('HTTP Status: ' + response.status);
+                    return response.json();
+                })
                 .then(data => {
-                    sheetData = data;
+                    if (Array.isArray(data)) sheetData = data;
+                    else if (data && Array.isArray(data.data)) sheetData = data.data;
+                    else if (data && Array.isArray(data.result)) sheetData = data.result;
+                    else sheetData = [];
+
                     renderDashboard();
                 })
                 .catch(error => {
                     console.error('Error fetching sheet data:', error);
-                    tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500 dark:text-rose-400">Gagal memuat data. Periksa koneksi atau deploy.</td></tr>`;
+                    if (tbody) {
+                        tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500 dark:text-rose-400 font-semibold">Gagal memuat data. Periksa koneksi internet atau web app deployment Google Apps Script Anda.</td></tr>`;
+                    }
                 });
         }
 
         const form = document.getElementById('dwForm');
         const submitBtn = document.getElementById('submitBtn');
 
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            
-            if(!storeHidden.value) {
-                storeHidden.value = storeInput.value;
-            }
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Mengirim data...';
-
-            const nama = document.getElementById('nama').value;
-            const rawDate = document.getElementById('tanggal').value;
-            
-            let formattedDate = rawDate;
-            if(rawDate) {
-                const dateObj = new Date(rawDate);
-                formattedDate = dateObj.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            }
-
-            const store = storeHidden.value;
-
-            const rows = document.querySelectorAll('#checklistTableBody tr[data-kategori]');
-            let items = [];
-
-            rows.forEach(row => {
-                const checkbox = row.querySelector('.ceklis-input');
-                if (checkbox.checked) {
-                    const kategori = row.getAttribute('data-kategori');
-                    const detail = row.getAttribute('data-detail');
-                    const komentarInput = row.querySelector('.komentar-input');
-
-                    items.push({
-                        kategori: kategori,
-                        detail: detail,
-                        ceklis: 'Sudah',
-                        komentar: komentarInput.value || '-'
-                    });
+        if (form) {
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+                
+                if(!storeHidden.value) {
+                    storeHidden.value = storeInput.value;
                 }
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Mengirim data...';
+
+                const nama = document.getElementById('nama').value;
+                const rawDate = document.getElementById('tanggal').value;
+                
+                let formattedDate = rawDate;
+                if(rawDate) {
+                    const dateObj = new Date(rawDate);
+                    formattedDate = dateObj.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                }
+
+                const store = storeHidden.value;
+                const rows = document.querySelectorAll('#checklistTableBody tr[data-kategori]');
+                let items = [];
+
+                rows.forEach(row => {
+                    const checkbox = row.querySelector('.ceklis-input');
+                    if (checkbox && checkbox.checked) {
+                        const kategori = row.getAttribute('data-kategori');
+                        const detail = row.getAttribute('data-detail');
+                        const komentarInput = row.querySelector('.komentar-input');
+
+                        items.push({
+                            kategori: kategori,
+                            detail: detail,
+                            ceklis: 'Sudah',
+                            komentar: komentarInput ? komentarInput.value || '-' : '-'
+                        });
+                    }
+                });
+
+                if (items.length === 0) {
+                    alert('Harap centang minimal satu poin penilaian sebelum submit!');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = dict[currentLang].btnSubmit;
+                    return;
+                }
+
+                const payload = {
+                    nama: nama,
+                    tanggal: formattedDate,
+                    store: store,
+                    items: items
+                };
+
+                fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(() => {
+                    alert('Form berhasil disubmit!');
+                    form.reset();
+                    storeHidden.value = '';
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = dict[currentLang].btnSubmit;
+                    switchTab('dashboardTab');
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    alert('Terjadi kesalahan saat mengirim data.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = dict[currentLang].btnSubmit;
+                });
             });
-
-            if (items.length === 0) {
-                alert('Harap centang minimal satu poin penilaian sebelum submit!');
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = dict[currentLang].btnSubmit;
-                return;
-            }
-
-            const payload = {
-                nama: nama,
-                tanggal: formattedDate,
-                store: store,
-                items: items
-            };
-
-            fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            })
-            .then(() => {
-                alert('Form berhasil disubmit!');
-                form.reset();
-                storeHidden.value = '';
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = dict[currentLang].btnSubmit;
-                switchTab('dashboardTab');
-            })
-            .catch(error => {
-                console.error('Error!', error.message);
-                alert('Terjadi kesalahan saat mengirim data.');
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = dict[currentLang].btnSubmit;
-            });
-        });
+        }
 
         let summaryDataObj = {};
 
+        // PERBAIKAN: Perhitungan Toko Melaporkan & Unique Daily Worker
         function renderDashboard() {
             const tbody = document.getElementById('reportTableBody');
+            if (!tbody) return;
             tbody.innerHTML = '';
 
             let total = sheetData.length;
-            let countDigix = 0;
-            let countActivation = 0;
-            let countIphone = 0;
-            let countRpDigix = 0;
-            let countUsher = 0;
-            let countAcc = 0;
-            let countActUnit = 0;
+            let countDigix = 0, countActivation = 0, countIphone = 0, countRpDigix = 0, countUsher = 0, countAcc = 0, countActUnit = 0;
+
+            const uniqueStores = new Set();
+            const uniqueStaffNames = new Set();
 
             if (total === 0) {
                 tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-500">Google Sheet kosong atau data tidak ditemukan.</td></tr>`;
@@ -600,24 +667,37 @@
                     else if (kat === 'Roleplay Menawarkan Aksesoris') countAcc++;
                     else if (kat === 'Roleplay Aktivasi Unit') countActUnit++;
 
+                    if (item.store && item.store.trim() !== '') {
+                        uniqueStores.add(item.store.trim().toLowerCase());
+                    }
+                    if (item.nama && item.nama.trim() !== '') {
+                        uniqueStaffNames.add(item.nama.trim().toLowerCase());
+                    }
+
                     const tr = document.createElement('tr');
                     tr.className = "border-b border-slate-200 dark:border-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800/30 table-row-item";
                     tr.setAttribute('data-nama', item.nama ? item.nama.toLowerCase() : '');
                     tr.setAttribute('data-store', item.store ? item.store.toLowerCase() : '');
                     tr.setAttribute('data-komentar', item.komentar ? item.komentar.toLowerCase() : '');
                     tr.innerHTML = `
-                        <td class="p-2 sm:p-3 text-[11px] text-slate-500 dark:text-slate-400">${item.timestamp}</td>
-                        <td class="p-2 sm:p-3 font-medium text-slate-900 dark:text-white">${item.nama}</td>
-                        <td class="p-2 sm:p-3 text-slate-700 dark:text-slate-300">${item.tanggal}</td>
-                        <td class="p-2 sm:p-3 text-slate-700 dark:text-slate-300 text-[11px]">${item.store}</td>
-                        <td class="p-2 sm:p-3 text-indigo-600 dark:text-indigo-400">${item.kategori}</td>
-                        <td class="p-2 sm:p-3 text-[11px] text-slate-700 dark:text-slate-300">${item.detail}</td>
-                        <td class="p-2 sm:p-3 text-center"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400">${item.ceklis}</span></td>
-                        <td class="p-2 sm:p-3 text-[11px] text-slate-500 dark:text-slate-400">${item.komentar}</td>
+                        <td class="p-2 sm:p-3 text-[11px] text-slate-500 dark:text-slate-400">${item.timestamp || '-'}</td>
+                        <td class="p-2 sm:p-3 font-medium text-slate-900 dark:text-white">${item.nama || '-'}</td>
+                        <td class="p-2 sm:p-3 text-slate-700 dark:text-slate-300">${item.tanggal || '-'}</td>
+                        <td class="p-2 sm:p-3 text-slate-700 dark:text-slate-300 text-[11px]">${item.store || '-'}</td>
+                        <td class="p-2 sm:p-3 text-indigo-600 dark:text-indigo-400 font-medium">${item.kategori || '-'}</td>
+                        <td class="p-2 sm:p-3 text-[11px] text-slate-700 dark:text-slate-300">${item.detail || '-'}</td>
+                        <td class="p-2 sm:p-3 text-center"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-semibold">${item.ceklis || 'Sudah'}</span></td>
+                        <td class="p-2 sm:p-3 text-[11px] text-slate-500 dark:text-slate-400">${item.komentar || '-'}</td>
                     `;
                     tbody.appendChild(tr);
                 });
             }
+
+            const totalUniqueStaffCount = uniqueStaffNames.size;
+            document.getElementById('statStoresCount').innerText = uniqueStores.size;
+            document.getElementById('statUniqueStaff').innerText = totalUniqueStaffCount;
+            document.getElementById('statTotalEntries').innerText = total;
+            document.getElementById('statAvgPerStaff').innerText = totalUniqueStaffCount > 0 ? (total / totalUniqueStaffCount).toFixed(1) : '0';
 
             document.getElementById('statDigix').innerText = countDigix;
             document.getElementById('statActivation').innerText = countActivation;
@@ -629,6 +709,8 @@
             document.getElementById('statTotal').innerText = total;
 
             summaryDataObj = [
+                { Kategori: "Toko Melaporkan (Unik)", Total: uniqueStores.size },
+                { Kategori: "Total Staff DW Ditraining (Unik)", Total: totalUniqueStaffCount },
                 { Kategori: "DigiX (Materi)", Total: countDigix },
                 { Kategori: "How to Activation", Total: countActivation },
                 { Kategori: "iPhone 18 (Sekilas)", Total: countIphone },
@@ -636,7 +718,7 @@
                 { Kategori: "Roleplay Usher", Total: countUsher },
                 { Kategori: "Menawarkan Aksesoris", Total: countAcc },
                 { Kategori: "Aktivasi Unit", Total: countActUnit },
-                { Kategori: "Total Keseluruhan", Total: total }
+                { Kategori: "Total Keseluruhan Ceklis", Total: total }
             ];
 
             renderChart([countDigix, countActivation, countIphone, countRpDigix, countUsher, countAcc, countActUnit]);
@@ -644,7 +726,9 @@
 
         // Fungsi Render Chart.js
         function renderChart(dataValues) {
-            const ctx = document.getElementById('summaryChart').getContext('2d');
+            const canvas = document.getElementById('summaryChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
             const isDark = document.documentElement.classList.contains('dark');
             const textColor = isDark ? '#cbd5e1' : '#334155';
             const gridColor = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
@@ -703,7 +787,7 @@
             });
         }
 
-        // Fungsi Filter Tabel Berdasarkan Store, Nama Staff, dan Komentar
+        // Fungsi Filter Tabel Berdasarkan Store & Nama Staff
         function filterTableByStaff() {
             const selectedStore = document.getElementById('filterStoreSelect').value.toLowerCase();
             const input = document.getElementById('searchStaffInput').value.toLowerCase();
@@ -725,7 +809,7 @@
             });
         }
 
-        // Export Tabel Utama ke Excel
+        // Export Excel Tabel
         function exportToExcel() {
             if (sheetData.length === 0) {
                 alert('Belum ada data untuk diexport!');
@@ -737,24 +821,30 @@
             XLSX.writeFile(workbook, "Report_Ceklis_Daily_Worker_Mirror.xlsx");
         }
 
-        // Export Tabel Utama ke PDF
+        // PERBAIKAN: Export PDF Tabel Utama
         function exportToPDF() {
-            if (sheetData.length === 0) {
+            if (!sheetData || sheetData.length === 0) {
                 alert('Belum ada data untuk diexport!');
                 return;
             }
+            
             const element = document.getElementById('pdfContainer');
             const options = {
-                margin:       5,
+                margin:       [10, 10, 10, 10],
                 filename:     'Report_Ceklis_Daily_Worker_Mirror.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+                html2canvas:  { scale: 2, useCORS: true, scrollY: 0, logging: false },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
+                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
             };
-            html2pdf().from(element, options);
+
+            html2pdf().set(options).from(element).save().catch(err => {
+                console.error("PDF Export Error:", err);
+                alert("Gagal mengexport PDF. Pastikan browser mengizinkan unduhan.");
+            });
         }
 
-        // Export Summary ke Excel
+        // Export Excel Summary
         function exportSummaryExcel() {
             if (!summaryDataObj || summaryDataObj.length === 0) {
                 alert('Belum ada data summary untuk diexport!');
@@ -766,7 +856,7 @@
             XLSX.writeFile(workbook, "Summary_Ceklis_Daily_Worker.xlsx");
         }
 
-        // Export Summary ke PDF
+        // PERBAIKAN: Export PDF Summary
         function exportSummaryPDF() {
             if (!summaryDataObj || summaryDataObj.length === 0) {
                 alert('Belum ada data summary untuk diexport!');
@@ -774,13 +864,17 @@
             }
             const element = document.getElementById('summaryContainer');
             const options = {
-                margin:       5,
+                margin:       [10, 10, 10, 10],
                 filename:     'Summary_Ceklis_Daily_Worker.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, scrollY: 0, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
-            html2pdf().from(element, options);
+
+            html2pdf().set(options).from(element).save().catch(err => {
+                console.error("Summary PDF Export Error:", err);
+                alert("Gagal mengexport Summary PDF.");
+            });
         }
     </script>
 </body>
