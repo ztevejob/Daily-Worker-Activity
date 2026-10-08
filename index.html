@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Ceklis Daily Worker & Dashboard - Digimap</title>
+    <title>Form Ceklis Daily Worker & Dashboard Reports</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,9 +12,8 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- SheetJS, html2pdf & Chart.js -->
+    <!-- SheetJS & Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -48,13 +47,13 @@
         <!-- Navigasi Menu Tab -->
         <div class="flex justify-center gap-2 sm:gap-4 border-b border-slate-300 dark:border-slate-800 pb-4 relative z-20">
             <button type="button" onclick="switchTab('formTab')" id="btnFormTab" class="cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 text-center select-none">Form Ceklis</button>
-            <button type="button" onclick="switchTab('dashboardTab')" id="btnDashboardTab" class="cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center select-none">Dashboard Report</button>
+            <button type="button" onclick="switchTab('dashboardTab')" id="btnDashboardTab" class="cursor-pointer flex-1 sm:flex-none px-4 sm:px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-800 text-center select-none">Dashboard Pelaporan</button>
         </div>
 
         <!-- 1. TAB FORM CEKLIS -->
         <div id="formTab" class="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10">
             <div class="text-center border-b border-slate-300 dark:border-slate-800 pb-4 sm:pb-6 mb-6 sm:mb-8">
-                <h1 class="text-xl sm:text-3xl font-bold mt-2 sm:mt-3 text-slate-900 dark:text-white tracking-tight" data-i18n="formTitle">FORM CEKLIS DAILY WORKER</h1>
+                <h1 class="text-xl sm:text-3xl font-bold mt-2 sm:mt-3 text-slate-900 dark:text-white tracking-tight" data-i18n="formTitle">FORM EVALUASI PELATIHAN DAILY WORKER</h1>
             </div>
 
             <form id="dwForm" class="space-y-6 sm:space-y-8">
@@ -85,7 +84,7 @@
                 <!-- B. PETUNJUK -->
                 <div class="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-500/20 rounded-xl p-3 sm:p-5 text-xs sm:text-sm text-indigo-900 dark:text-indigo-200 space-y-1">
                     <p class="font-semibold text-indigo-600 dark:text-indigo-400">B. PETUNJUK & PANDUAN PENILAIAN</p>
-                    <p>1. Pastikan semua Staff Daily Worker sudah mendapatkan Training DigiX/Activation Device/Roleplay oleh ST/SPV.</p>
+                    <p>1. Pastikan semua Staff Daily Worker sudah mendapatkan Training Aplikasi POS/Aktivasi Perangkat/Roleplay oleh ST/SPV.</p>
                     <p>2. Berikan Komentar/Catatan untuk peserta ketika mengikuti sesi Training.</p>
                 </div>
 
@@ -101,52 +100,52 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-300 dark:divide-slate-800 text-xs sm:text-sm" id="checklistTableBody">
-                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">A. DigiX</td></tr>
-                            <tr data-kategori="DigiX" data-detail="Materi Deliver: Staff DW sudah mengetahui materi DigiX">
+                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">A. Aplikasi POS & Transaksi</td></tr>
+                            <tr data-kategori="DigiX" data-detail="Materi Deliver: Staff DW sudah mengetahui materi Aplikasi POS & Transaksi">
                                 <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">1</td>
-                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah mengetahui materi DigiX</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah mengetahui materi Aplikasi POS & Transaksi</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
                                 <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
-                            <tr data-kategori="Roleplay DigiX" data-detail="Roleplay: Staff DW sudah melakukan Roleplay DigiX">
+                            <tr data-kategori="Roleplay DigiX" data-detail="Roleplay: Staff DW sudah melakukan Roleplay Sistem POS">
                                 <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">2</td>
-                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah melakukan Roleplay DigiX</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah melakukan Roleplay Sistem POS</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
                                 <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
 
-                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">B. How to Activation</td></tr>
-                            <tr data-kategori="How to Activation" data-detail="Materi Deliver: Staff DW sudah mengetahui langkah - langkah melakukan aktifasi device">
+                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">B. Prosedur Aktivasi</td></tr>
+                            <tr data-kategori="How to Activation" data-detail="Materi Deliver: Staff DW sudah mengetahui langkah - langkah melakukan aktivasi perangkat">
                                 <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">3</td>
-                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah mengetahui langkah - langkah melakukan aktifasi device</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah mengetahui langkah - langkah melakukan aktivasi perangkat</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
                                 <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
 
-                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">C. iPhone 18 (Sekilas Pandang)</td></tr>
-                            <tr data-kategori="iPhone 18 (Sekilas Pandang)" data-detail="iPhone 18: Staff DW sudah mengetahui dan mempelajari iPhone 18-Sekilas Pandang">
+                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">C. Pengetahuan Produk Utama</td></tr>
+                            <tr data-kategori="iPhone 18 (Sekilas Pandang)" data-detail="Pengetahuan Produk: Staff DW sudah mempelajari fitur produk terbaru">
                                 <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">4</td>
-                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah mengetahui dan mempelajari "iPhone 18-Sekilas Pandang"</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah mengetahui dan mempelajari "Fitur & Produk Unggulan Terbaru"</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
                                 <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
 
-                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">D. Roleplay</td></tr>
-                            <tr data-kategori="Roleplay Usher" data-detail="Usher: Staff DW melakukan roleplay sebagai USHER ketika NPI">
+                            <tr class="bg-slate-100 dark:bg-slate-900/50"><td colspan="4" class="p-2 sm:p-3 font-bold text-indigo-600 dark:text-indigo-400">D. Roleplay Skenario Pelayanan</td></tr>
+                            <tr data-kategori="Roleplay Usher" data-detail="Usher: Staff DW melakukan roleplay sebagai Pemandu/Usher saat event khusus">
                                 <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">5</td>
-                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW melakukan roleplay sebagai USHER ketika NPI</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW melakukan roleplay sebagai USHER ketika Event Peluncuran</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
                                 <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
-                            <tr data-kategori="Roleplay Menawarkan Aksesoris" data-detail="Accessories: Staff DW sudah melakukan Roleplay bagaimana menawarkan Accessories ketika NPI">
+                            <tr data-kategori="Roleplay Menawarkan Aksesoris" data-detail="Accessories: Staff DW sudah melakukan Roleplay cara menawarkan aksesoris pendukung">
                                 <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">6</td>
-                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah melakukan Roleplay bagaimana menawarkan Accessories ketika NPI</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah melakukan Roleplay bagaimana menawarkan Aksesoris saat event</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
                                 <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
-                            <tr data-kategori="Roleplay Aktivasi Unit" data-detail="Activator: Staff DW sudah melakukan Roleplay bagaimana caranya aktifasi unit ketika NPI">
+                            <tr data-kategori="Roleplay Aktivasi Unit" data-detail="Activator: Staff DW sudah melakukan Roleplay alur aktivasi perangkat pelanggan">
                                 <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">7</td>
-                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah melakukan Roleplay bagaimana caranya aktifasi unit ketika NPI</td>
+                                <td class="p-2 sm:p-3 text-slate-800 dark:text-slate-200">Staff DW sudah melakukan Roleplay bagaimana caranya aktivasi unit saat event</td>
                                 <td class="p-2 sm:p-3 text-center"><input type="checkbox" value="Sudah" class="ceklis-input w-4 h-4 sm:w-5 sm:h-5 accent-indigo-600 rounded bg-white dark:bg-slate-950 border-slate-400 dark:border-slate-700 cursor-pointer"></td>
                                 <td class="p-2 sm:p-3"><input type="text" placeholder="Catatan..." class="komentar-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-2 sm:px-3 py-1.5 text-slate-900 dark:text-slate-200 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"></td>
                             </tr>
@@ -166,8 +165,8 @@
         <div id="dashboardTab" class="hidden bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-4 sm:p-10 space-y-6 sm:space-y-8">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-300 dark:border-slate-800 pb-4 sm:pb-6 gap-4">
                 <div>
-                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-200 dark:border-indigo-500/20" data-i18n="badgeSummary">Executive Summary</span>
-                    <h2 class="text-xl sm:text-2xl font-bold mt-2 text-slate-900 dark:text-white" data-i18n="dashboardTitle">Dashboard Report Management</h2>
+                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-200 dark:border-indigo-500/20" data-i18n="badgeSummary">Ringkasan Eksekutif</span>
+                    <h2 class="text-xl sm:text-2xl font-bold mt-2 text-slate-900 dark:text-white" data-i18n="dashboardTitle">Dashboard Laporan Manajerial</h2>
                 </div>
                 <div>
                     <button type="button" onclick="fetchSheetData()" class="cursor-pointer bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2.5 rounded-xl text-xs sm:text-sm transition shadow-lg flex items-center gap-2" data-i18n="btnRefresh">🔄 Refresh Data</button>
@@ -178,7 +177,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="bg-gradient-to-br from-indigo-500/10 to-indigo-600/5 dark:from-indigo-500/20 dark:to-indigo-600/10 border border-indigo-200 dark:border-indigo-500/30 rounded-2xl p-5 shadow-sm">
                     <div class="flex items-center justify-between">
-                        <p class="text-xs sm:text-sm font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider" data-i18n="cardStoresReported">🏢 Toko Melaporkan</p>
+                        <p class="text-xs sm:text-sm font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider" data-i18n="cardStoresReported">🏢 Store Melaporkan</p>
                         <span class="text-2xl">🏪</span>
                     </div>
                     <h3 id="statStoresCount" class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-3">0</h3>
@@ -195,31 +194,57 @@
                 </div>
             </div>
 
+            <!-- TABEL RINGKASAN PER STORE -->
+            <div class="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-xl border border-slate-300 dark:border-slate-800 space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div>
+                        <h3 class="text-sm sm:text-lg font-semibold text-indigo-600 dark:text-indigo-300">🏪 Ringkasan Pelaporan Per Store</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Daftar store yang sudah mengirim laporan beserta jumlah Daily Worker yang telah ditraining</p>
+                    </div>
+                    <button type="button" onclick="exportStoreSummaryExcel()" class="cursor-pointer bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex items-center gap-1.5">📊 Export Store Summary Excel</button>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-xl">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-[10px] sm:text-xs uppercase border-b border-slate-300 dark:border-slate-700">
+                                <th class="p-2 sm:p-3 w-12 text-center">No</th>
+                                <th class="p-2 sm:p-3">Nama / Kode Store</th>
+                                <th class="p-2 sm:p-3 text-center">Jumlah DW Ditraining</th>
+                                <th class="p-2 sm:p-3 text-center">Total Ceklis Terisi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="storeSummaryTableBody" class="divide-y divide-slate-200 dark:divide-slate-800 text-slate-800 dark:text-slate-200">
+                            <tr><td colspan="4" class="p-4 text-center text-slate-500">Belum ada data store.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- Bagian Container Export Summary & Cards -->
             <div id="summaryContainer" class="space-y-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-300 dark:border-slate-800">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <h3 class="text-sm sm:text-lg font-semibold text-indigo-600 dark:text-indigo-300" data-i18n="summaryTitle">Ringkasan Kategori (Summary)</h3>
                     <div class="flex gap-2 w-full sm:w-auto">
                         <button type="button" onclick="exportSummaryExcel()" class="cursor-pointer flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExportSummaryExcel">📊 Export Summary Excel</button>
-                        <button type="button" onclick="exportSummaryPDF()" class="cursor-pointer flex-1 sm:flex-none bg-rose-600 hover:bg-rose-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExportSummaryPDF">📄 Export Summary PDF</button>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                     <div class="bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 rounded-xl p-3 sm:p-4">
-                        <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-i18n="cardDigix">DigiX (Materi)</p>
+                        <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-i18n="cardDigix">POS & Transaksi</p>
                         <h3 id="statDigix" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">0</h3>
                     </div>
                     <div class="bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 rounded-xl p-3 sm:p-4">
-                        <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-i18n="cardActivation">How to Activation</p>
+                        <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-i18n="cardActivation">Prosedur Aktivasi</p>
                         <h3 id="statActivation" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">0</h3>
                     </div>
                     <div class="bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 rounded-xl p-3 sm:p-4">
-                        <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-i18n="cardIphone">iPhone 18 (Sekilas)</p>
+                        <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-i18n="cardIphone">Produk Utama</p>
                         <h3 id="statIphone" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">0</h3>
                     </div>
                     <div class="bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 rounded-xl p-3 sm:p-4">
-                        <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-i18n="cardRpDigix">Roleplay DigiX</p>
+                        <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-i18n="cardRpDigix">Roleplay POS</p>
                         <h3 id="statRpDigix" class="text-xl sm:text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">0</h3>
                     </div>
                     <div class="bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 rounded-xl p-3 sm:p-4">
@@ -249,8 +274,8 @@
                 </div>
             </div>
 
-            <!-- Area Container untuk Export PDF Tabel & Detail -->
-            <div id="pdfContainer" class="space-y-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-300 dark:border-slate-800">
+            <!-- Area Detail Laporan & Filter -->
+            <div class="space-y-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-300 dark:border-slate-800">
                 <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700 rounded-xl p-3 sm:p-4 space-y-4">
                     
                     <!-- Header Tabel, Filter Toko, Filter Nama Staff & Tombol Export -->
@@ -269,8 +294,7 @@
                         </div>
 
                         <div class="flex gap-2 w-full lg:w-auto">
-                            <button type="button" onclick="exportToExcel()" class="cursor-pointer flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExcel">📊 Excel</button>
-                            <button type="button" onclick="exportToPDF()" class="cursor-pointer flex-1 sm:flex-none bg-rose-600 hover:bg-rose-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnPDF">📄 PDF</button>
+                            <button type="button" onclick="exportToExcel()" class="cursor-pointer flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex justify-center items-center gap-1.5" data-i18n="btnExcel">📊 Excel Tabel</button>
                         </div>
                     </div>
 
@@ -278,7 +302,7 @@
                         <table class="w-full text-left border-collapse text-xs sm:text-sm min-w-[600px]" id="reportTable">
                             <thead>
                                 <tr class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-[10px] sm:text-xs uppercase border-b border-slate-300 dark:border-slate-700">
-                                    <th class="p-2 sm:p-3" data-i18n="thTime">Timestamp</th>
+                                    <th class="p-2 sm:p-3" data-i18n="thTime">Waktu</th>
                                     <th class="p-2 sm:p-3" data-i18n="thStaff">Nama Staff</th>
                                     <th class="p-2 sm:p-3" data-i18n="thDate">Tanggal</th>
                                     <th class="p-2 sm:p-3" data-i18n="thStore">Store</th>
@@ -303,13 +327,14 @@
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzY2OHFWwUK0DhaEdqQAs-xohwdhCSWK66av27dHWKr2D8-HWrJ9Vl7Im8jIMHzAkt3CQ/exec';
         let sheetData = [];
+        let storeSummaryData = [];
         let currentLang = 'id';
         let summaryChartInstance = null;
 
         // Kamus Bahasa (ID & EN)
         const dict = {
             id: {
-                formTitle: "FORM CEKLIS DAILY WORKER",
+                formTitle: "FORM EVALUASI PELATIHAN DAILY WORKER",
                 lblName: "Nama Staff",
                 lblDate: "Tanggal Pelatihan",
                 lblStore: "Store / Lokasi (Ketik kode atau nama store)",
@@ -317,27 +342,25 @@
                 thCheck: "Ceklis",
                 thNotes: "Komentar / Catatan",
                 btnSubmit: "Submit Penilaian",
-                badgeSummary: "Executive Summary",
-                dashboardTitle: "Dashboard Report Management",
+                badgeSummary: "Ringkasan Eksekutif",
+                dashboardTitle: "Dashboard Laporan Manajerial",
                 btnRefresh: "🔄 Refresh Data",
                 btnExcel: "📊 Excel Tabel",
-                btnPDF: "📄 PDF Tabel",
                 summaryTitle: "Ringkasan Kategori (Summary)",
                 chartTitle: "Grafik Performa Kategori Pelatihan",
                 btnExportSummaryExcel: "📊 Export Summary Excel",
-                btnExportSummaryPDF: "📄 Export Summary PDF",
-                cardStoresReported: "🏢 Toko Melaporkan",
+                cardStoresReported: "🏢 Store Melaporkan",
                 cardUniqueStaff: "👨‍💼 Total Staff DW",
-                cardDigix: "DigiX (Materi)",
-                cardActivation: "How to Activation",
-                cardIphone: "iPhone 18 (Sekilas)",
-                cardRpDigix: "Roleplay DigiX",
+                cardDigix: "POS & Transaksi",
+                cardActivation: "Prosedur Aktivasi",
+                cardIphone: "Produk Utama",
+                cardRpDigix: "Roleplay POS",
                 cardUsher: "Roleplay Usher",
                 cardAcc: "Menawarkan Aksesoris",
                 cardActUnit: "Aktivasi Unit",
                 cardTotal: "Total Keseluruhan",
                 tableTitle: "Laporan Detail Penilaian Training Daily Worker",
-                thTime: "Timestamp",
+                thTime: "Waktu",
                 thStaff: "Nama Staff",
                 thDate: "Tanggal",
                 thStore: "Store",
@@ -348,7 +371,7 @@
                 tableLoading: "Klik tombol \"Refresh Data\" untuk memuat data."
             },
             en: {
-                formTitle: "DAILY WORKER CHECKLIST FORM",
+                formTitle: "DAILY WORKER TRAINING EVALUATION FORM",
                 lblName: "Staff Name",
                 lblDate: "Training Date",
                 lblStore: "Store / Location (Type code or store name)",
@@ -357,21 +380,19 @@
                 thNotes: "Comments / Notes",
                 btnSubmit: "Submit Assessment",
                 badgeSummary: "Executive Summary",
-                dashboardTitle: "Dashboard Report Management",
+                dashboardTitle: "Managerial Dashboard Report",
                 btnRefresh: "🔄 Refresh Data",
                 btnExcel: "📊 Excel Table",
-                btnPDF: "📄 PDF Table",
                 summaryTitle: "Category Summary",
                 chartTitle: "Training Category Performance Chart",
                 btnExportSummaryExcel: "📊 Export Summary Excel",
-                btnExportSummaryPDF: "📄 Export Summary PDF",
                 cardStoresReported: "🏢 Reported Stores",
                 cardUniqueStaff: "👨‍💼 Total Unique DW Staff",
-                cardDigix: "DigiX (Material)",
-                cardActivation: "How to Activation",
-                cardIphone: "iPhone 18 (Overview)",
-                cardRpDigix: "Roleplay DigiX",
-                cardUsher: "Roleplay Usher",
+                cardDigix: "POS & Transaction",
+                cardActivation: "Activation Procedure",
+                cardIphone: "Core Product Knowledge",
+                cardRpDigix: "POS Roleplay",
+                cardUsher: "Usher Roleplay",
                 cardAcc: "Offering Accessories",
                 cardActUnit: "Device Activation",
                 cardTotal: "Overall Total",
@@ -431,7 +452,7 @@
             }
         }
 
-        // Daftar Store Digimap Lengkap
+        // Daftar Store Lengkap
         const stores = [
             "M116 Digimap Beachwalk Bali", "M118 Digimap Pondok Indah Mall 3", "M119 Digimap Centrepoint Mall Medan", "M120 Digimap Sun Plaza Medan", "M121 Digimap Tunjungan Plaza 3 Surabaya", "M122 Digimap Galaxy Mall Surabaya", "M123 Digimap Mall Bali Galeria", "M124 Digimap Pacific Place", "M125 Digimap Supermall Karawaci", "M126 Digimap Ciputra World Surabaya", "M127 Digimap Lotte Shopping Avenue", "M128 Digimap Emporium Mall Pluit", "M129 Digimap Mall Puri Indah", "M130 Digimap Sunset Road Bali", "M131 Digimap Grand Indonesia", "M132 Digimap Plaza Senayan", "M133 Digimap Trans Studio Mall Bandung", "M201 Digimap Trans Studio Mall Cibubur", "M203 Digimap AEON Mall BSD", "M205 Digimap Paskal 23 Bandung", "M206 Digimap Pakuwon Mall Surabaya", "M212 Digimap Sunter Mall", "M214 Digimap AEON Mall Sentul", "M215 Digimap Mall Taman Anggrek", "M216 Digimap Tentrem Mall Semarang", "M217 Digimap Blok M Plaza", "M218 Digimap Plaza Balikpapan", "M219 Digimap Basko Padang", "M220 Digimap Malioboro Mall", "M221 Digimap A Yani Pontianak", "M222 Digimap Palembang Indah Mall", "M223 Digimap Roxy Square Jember", "M224 Digimap WTC Jambi", "M225 Digimap Citimall Dumai", "M226 Digimap Ambon City Center", "M227 Digimap AEON Tanjung Barat", "M228 Digimap Citimall Cianjur 2", "M229 Digimap Trans Icon Surabaya", "M230 Digimap The Park Kendari", "M231 Digimap Gress Mall Gresik", "M232 Digimap Pakuwon Mall Solo", "M233 Digimap Unimas District Sidoarjo", "M234 Digimap Citra Grand Cibubur", "M235 Digimap Lippo Plaza Kramat Jati", "M236 Digimap Palu Grand Mall", "M237 Digimap Solo Square", "M238 Digimap Pondok Indah Mall 2", "M239 Digimap Icon Mall Bali", "M240 Digimap Pacific Mall Tegal", "M241 Digimap Revo Mall", "M243 Digimap Aeon Mall Delta Mas", "M244 Digimap Java Mall Semarang", "M245 Digimap Living World Kota Wisata", "M246 Digimap Malang Town Square", "M247 Digimap Lippo Plaza Jambi", "M248 Digimap Suncity Mall Sidoarjo", "M249 Digimap Lippo Plaza Palangkaraya", "M250 Digimap Lippo Plaza Batu", "M251 Digimap The Kings Shopping Centre Bandung", "M252 Digimap Binjai Mall", "M253 Digimap Plaza Surabaya", "M254 Digimap Basko city Mall Padang", "M255 Digimap Antasari Place", "M256 Digimap Lippo Plaza Lubuklinggau", "M257 Digimap City Plaza Jatinegara", "M258 Digimap Lippo Plaza Manado", "M259 Digimap Jatinangor Town Square", "M260 Digimap Kudus Extention Mall", "M261 Digimap PIK Elang Laut", "M262 Digimap Suzuya Merdeka Square Siantar", "M263 Digimap Citimall Sampit", "M264 Digimap Plaza Semanggi", "M265 Digimap Merr Street", "M266 Digimap HIVE Harapan Indah", "M267 Digimap Mall Cijantung", "M268 Digimap Diana Mall Timika", "M269 Digimap Tenth Avenue", "M270 Digimap Citimall Lahat", "M271 Digimap Mall Indramayu", "M272 Digimap Kota Baru Parahyangan", "M273 Digimap Metro Lampung", "M274 Digimap Street Ciputat Raya", "M275 Digimap Citimall Baturaja", "M276 Digimap Shila At Sawangan", "M277 Digimap Citimall Tuban", "M278 Digimap A.S.S Brebes", "M279 Digimap Ciumbuleuit", "M281 Digimap Ngaliyan Street", "M282 Digimap Citimall Pangkalanbun", "M283 Digimap Basuki Rahmat Tulungagung", "M284 Digimap BSD Loka", "M285 Digimap Blitar Square", "M286 Digimap Citimall Prabumulih", "M287 Digimap Grand Tarakan", "M288 Digimap Mojopahit Street Mojokerto", "M289 Digimap Maleo Town Square", "M290 Digimap Mandau City Mall", "M293 Digimap Jend Sudirman Salatiga", "M294 Digimap Bojonegoro Street", "M295 Digimap Juanda Tasikmalaya", "M297 Digimap Ponorogo City Center"
         ];
@@ -510,11 +531,11 @@
             }
         }
 
-        // Memuat Data Google Sheet
+        // Memuat Data Spreadsheet Server
         function fetchSheetData() {
             const tbody = document.getElementById('reportTableBody');
             if (tbody) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-indigo-600 dark:text-indigo-400 animate-pulse font-medium">Menyelaraskan data dengan Google Sheet...</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-indigo-600 dark:text-indigo-400 animate-pulse font-medium">Menyelaraskan data dengan server...</td></tr>`;
             }
 
             fetch(scriptURL)
@@ -531,9 +552,9 @@
                     renderDashboard();
                 })
                 .catch(error => {
-                    console.error('Error fetching sheet data:', error);
+                    console.error('Error fetching data:', error);
                     if (tbody) {
-                        tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500 dark:text-rose-400 font-semibold">Gagal memuat data. Periksa koneksi internet atau deployment Google Apps Script Anda.</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500 dark:text-rose-400 font-semibold">Gagal memuat data. Periksa koneksi internet atau konfigurasi server API.</td></tr>`;
                     }
                 });
         }
@@ -620,9 +641,10 @@
 
         let summaryDataObj = {};
 
-        // Perhitungan Toko Melaporkan & Unique Daily Worker
+        // Perhitungan Toko Melaporkan, Unique DW & Ringkasan Per Store
         function renderDashboard() {
             const tbody = document.getElementById('reportTableBody');
+            const storeSummaryTbody = document.getElementById('storeSummaryTableBody');
             if (!tbody) return;
             tbody.innerHTML = '';
 
@@ -631,9 +653,13 @@
 
             const uniqueStores = new Set();
             const uniqueStaffNames = new Set();
+            
+            // Map untuk menyimpan ringkasan store: { storeName: { staffSet: Set(), totalCeklis: 0 } }
+            const storeSummaryMap = {};
 
             if (total === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-500">Google Sheet kosong atau data tidak ditemukan.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-500">Basis data kosong atau tidak ditemukan data pelaporan.</td></tr>`;
+                if (storeSummaryTbody) storeSummaryTbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-500">Belum ada data store.</td></tr>`;
             } else {
                 sheetData.forEach(item => {
                     const kat = item.kategori ? item.kategori.trim() : '';
@@ -645,12 +671,28 @@
                     else if (kat === 'Roleplay Menawarkan Aksesoris') countAcc++;
                     else if (kat === 'Roleplay Aktivasi Unit') countActUnit++;
 
-                    if (item.store && item.store.trim() !== '') {
-                        uniqueStores.add(item.store.trim().toLowerCase());
+                    const storeNameRaw = item.store ? item.store.trim() : 'Unspecified Store';
+                    const storeKey = storeNameRaw.toLowerCase();
+                    const staffNameRaw = item.nama ? item.nama.trim() : 'Unknown';
+
+                    if (storeNameRaw !== '') {
+                        uniqueStores.add(storeKey);
                     }
-                    if (item.nama && item.nama.trim() !== '') {
-                        uniqueStaffNames.add(item.nama.trim().toLowerCase());
+                    if (staffNameRaw !== '') {
+                        uniqueStaffNames.add(staffNameRaw.toLowerCase());
                     }
+
+                    // Pengelompokan Data per Store
+                    if (!storeSummaryMap[storeNameRaw]) {
+                        storeSummaryMap[storeNameRaw] = {
+                            staffSet: new Set(),
+                            totalCeklis: 0
+                        };
+                    }
+                    if (staffNameRaw !== '') {
+                        storeSummaryMap[storeNameRaw].staffSet.add(staffNameRaw.toLowerCase());
+                    }
+                    storeSummaryMap[storeNameRaw].totalCeklis += 1;
 
                     const tr = document.createElement('tr');
                     tr.className = "border-b border-slate-200 dark:border-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800/30 table-row-item";
@@ -669,6 +711,32 @@
                     `;
                     tbody.appendChild(tr);
                 });
+
+                // Render Tabel Ringkasan Store
+                if (storeSummaryTbody) {
+                    storeSummaryTbody.innerHTML = '';
+                    storeSummaryData = [];
+                    let idx = 1;
+                    for (const [sName, sData] of Object.entries(storeSummaryMap)) {
+                        const dwCount = sData.staffSet.size;
+                        storeSummaryData.push({
+                            No: idx,
+                            Store: sName,
+                            Jumlah_DW_Ditraining: dwCount,
+                            Total_Ceklis: sData.totalCeklis
+                        });
+
+                        const strRow = document.createElement('tr');
+                        strRow.className = "border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40";
+                        strRow.innerHTML = `
+                            <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">${idx++}</td>
+                            <td class="p-2 sm:p-3 font-semibold text-slate-900 dark:text-white">${sName}</td>
+                            <td class="p-2 sm:p-3 text-center font-bold text-indigo-600 dark:text-indigo-400">${dwCount} Orang</td>
+                            <td class="p-2 sm:p-3 text-center text-slate-700 dark:text-slate-300">${sData.totalCeklis} Poin</td>
+                        `;
+                        storeSummaryTbody.appendChild(strRow);
+                    }
+                }
             }
 
             const totalUniqueStaffCount = uniqueStaffNames.size;
@@ -687,10 +755,10 @@
             summaryDataObj = [
                 { Kategori: "Toko Melaporkan (Unik)", Total: uniqueStores.size },
                 { Kategori: "Total Staff DW Ditraining (Unik)", Total: totalUniqueStaffCount },
-                { Kategori: "DigiX (Materi)", Total: countDigix },
-                { Kategori: "How to Activation", Total: countActivation },
-                { Kategori: "iPhone 18 (Sekilas)", Total: countIphone },
-                { Kategori: "Roleplay DigiX", Total: countRpDigix },
+                { Kategori: "Aplikasi POS & Transaksi", Total: countDigix },
+                { Kategori: "Prosedur Aktivasi", Total: countActivation },
+                { Kategori: "Produk Utama", Total: countIphone },
+                { Kategori: "Roleplay POS", Total: countRpDigix },
                 { Kategori: "Roleplay Usher", Total: countUsher },
                 { Kategori: "Menawarkan Aksesoris", Total: countAcc },
                 { Kategori: "Aktivasi Unit", Total: countActUnit },
@@ -716,7 +784,7 @@
             summaryChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['DigiX', 'Activation', 'iPhone 18', 'RP DigiX', 'RP Usher', 'Acc', 'Act Unit'],
+                    labels: ['POS', 'Aktivasi', 'Produk Utama', 'RP POS', 'RP Usher', 'Aksesoris', 'Act Unit'],
                     datasets: [{
                         label: 'Total Capaian Kategori',
                         data: dataValues,
@@ -785,7 +853,7 @@
             });
         }
 
-        // Export Excel Tabel
+        // Export Excel Tabel Detail
         function exportToExcel() {
             if (sheetData.length === 0) {
                 alert('Belum ada data untuk diexport!');
@@ -797,54 +865,7 @@
             XLSX.writeFile(workbook, "Report_Ceklis_Daily_Worker.xlsx");
         }
 
-        // PERBAIKAN FONT EXPORT PDF TABEL UTAMA
-        function exportToPDF() {
-            if (!sheetData || sheetData.length === 0) {
-                alert('Belum ada data untuk diexport!');
-                return;
-            }
-            
-            const originalElement = document.getElementById('pdfContainer');
-            const clonedElement = originalElement.cloneNode(true);
-            
-            // Terapkan latar belakang gelap dan warna font kontras tinggi pada elemen kloningan
-            clonedElement.style.backgroundColor = '#0f172a';
-            clonedElement.style.color = '#f8fafc';
-            clonedElement.style.padding = '20px';
-            clonedElement.querySelectorAll('*').forEach(el => {
-                el.style.color = '#f8fafc';
-            });
-            clonedElement.querySelectorAll('table th').forEach(el => {
-                el.style.backgroundColor = '#1e293b';
-                el.style.color = '#38bdf8';
-            });
-            clonedElement.querySelectorAll('table td').forEach(el => {
-                el.style.borderColor = '#334155';
-            });
-
-            const container = document.createElement('div');
-            container.appendChild(clonedElement);
-            document.body.appendChild(container);
-
-            const options = {
-                margin:       [10, 10, 10, 10],
-                filename:     'Laporan_Detail_Penilaian_Daily_Worker.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, scrollY: 0, logging: false, backgroundColor: '#0f172a' },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
-                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-            };
-
-            html2pdf().set(options).from(clonedElement).save().then(() => {
-                document.body.removeChild(container);
-            }).catch(err => {
-                console.error("PDF Export Error:", err);
-                if (document.body.contains(container)) document.body.removeChild(container);
-                alert("Gagal mengexport PDF. Pastikan browser mengizinkan unduhan.");
-            });
-        }
-
-        // Export Excel Summary
+        // Export Excel Summary Kategori
         function exportSummaryExcel() {
             if (!summaryDataObj || summaryDataObj.length === 0) {
                 alert('Belum ada data summary untuk diexport!');
@@ -856,42 +877,16 @@
             XLSX.writeFile(workbook, "Summary_Ceklis_Daily_Worker.xlsx");
         }
 
-        // PERBAIKAN FONT EXPORT PDF SUMMARY
-        function exportSummaryPDF() {
-            if (!summaryDataObj || summaryDataObj.length === 0) {
-                alert('Belum ada data summary untuk diexport!');
+        // Export Excel Ringkasan Per Store
+        function exportStoreSummaryExcel() {
+            if (!storeSummaryData || storeSummaryData.length === 0) {
+                alert('Belum ada data ringkasan store untuk diexport!');
                 return;
             }
-            
-            const originalElement = document.getElementById('summaryContainer');
-            const clonedElement = originalElement.cloneNode(true);
-            
-            clonedElement.style.backgroundColor = '#0f172a';
-            clonedElement.style.color = '#f8fafc';
-            clonedElement.style.padding = '20px';
-            clonedElement.querySelectorAll('*').forEach(el => {
-                el.style.color = '#f8fafc';
-            });
-
-            const container = document.createElement('div');
-            container.appendChild(clonedElement);
-            document.body.appendChild(container);
-
-            const options = {
-                margin:       [10, 10, 10, 10],
-                filename:     'Summary_Ceklis_Daily_Worker.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, scrollY: 0, logging: false, backgroundColor: '#0f172a' },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().set(options).from(clonedElement).save().then(() => {
-                document.body.removeChild(container);
-            }).catch(err => {
-                console.error("Summary PDF Export Error:", err);
-                if (document.body.contains(container)) document.body.removeChild(container);
-                alert("Gagal mengexport Summary PDF.");
-            });
+            const worksheet = XLSX.utils.json_to_sheet(storeSummaryData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Ringkasan Store");
+            XLSX.writeFile(workbook, "Ringkasan_Store_Daily_Worker.xlsx");
         }
     </script>
 </body>
