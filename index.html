@@ -173,6 +173,18 @@
                 </div>
             </div>
 
+            <!-- GLOBAL SPOTLIGHT STORE SEARCH -->
+            <div class="bg-gradient-to-r from-indigo-900/40 via-purple-900/30 to-slate-900/60 border border-indigo-500/30 p-4 sm:p-5 rounded-2xl shadow-xl space-y-2">
+                <label class="block text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-2">
+                    <span>🔍 Spotlight Filter Store Global</span>
+                    <span class="text-[10px] font-normal text-slate-400">(Menyaring Seluruh Tabel Laporan Sekaligus)</span>
+                </label>
+                <div class="relative">
+                    <input type="text" id="globalStoreSpotlight" onkeyup="applyGlobalStoreFilter()" placeholder="Ketik nama / kode store (Contoh: M131, Grand Indonesia, Galaxy Mall)..." class="w-full bg-slate-900/90 border border-indigo-500/40 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-inner">
+                    <button type="button" onclick="clearGlobalStoreFilter()" class="absolute right-3 top-3 text-xs text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded-lg border border-slate-600 transition">Reset Filter</button>
+                </div>
+            </div>
+
             <!-- SECTION 1 (ATAS): CARDS RINGKASAN UTAMA & SUMMARY KATEGORI -->
             <div id="summaryContainer" class="space-y-4">
                 <!-- Highlight Utama -->
@@ -291,7 +303,10 @@
                             <h3 class="text-sm sm:text-lg font-semibold text-indigo-600 dark:text-indigo-300">📋 Tabel Kelengkapan Ceklis DW</h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400">Rincian status kelengkapan 7 poin ceklis per individu Staff Daily Worker</p>
                         </div>
-                        <button type="button" onclick="exportDWCompletionExcel()" class="cursor-pointer bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex items-center gap-1.5">📊 Export DW Completion Excel</button>
+                        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                            <input type="text" id="searchDWCompletionInput" onkeyup="filterDWCompletionTable()" placeholder="🔍 Cari DW / Store..." class="bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <button type="button" onclick="exportDWCompletionExcel()" class="cursor-pointer bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-1.5">📊 Export Excel</button>
+                        </div>
                     </div>
 
                     <div class="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-xl">
@@ -321,7 +336,10 @@
                             <h3 class="text-sm sm:text-lg font-semibold text-indigo-600 dark:text-indigo-300">🏪 Ringkasan Pelaporan Per Store</h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400">Daftar store yang sudah mengirim laporan beserta jumlah Daily Worker yang telah ditraining</p>
                         </div>
-                        <button type="button" onclick="exportStoreSummaryExcel()" class="cursor-pointer bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex items-center gap-1.5">📊 Export Store Summary Excel</button>
+                        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                            <input type="text" id="searchStoreSummaryInput" onkeyup="filterStoreSummaryTable()" placeholder="🔍 Cari Store..." class="bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <button type="button" onclick="exportStoreSummaryExcel()" class="cursor-pointer bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-1.5">📊 Export Excel</button>
+                        </div>
                     </div>
 
                     <div class="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-xl">
@@ -768,7 +786,6 @@
                 sheetData.forEach(item => {
                     const kat = item.kategori ? item.kategori.trim().toLowerCase() : '';
                     
-                    // Pencocokan kategori secara cerdas (case-insensitive & partial match)
                     if (kat.includes('digix') && !kat.includes('roleplay')) {
                         countDigix++;
                     } else if (kat.includes('how to activation') || kat.includes('aktifasi device') || kat.includes('aktivasi perangkat')) {
@@ -822,7 +839,7 @@
                     const tr = document.createElement('tr');
                     tr.className = "border-b border-slate-200 dark:border-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800/30 table-row-item";
                     tr.setAttribute('data-nama', item.nama ? item.nama.toLowerCase() : '');
-                    tr.setAttribute('data-store', item.store ? item.store.toLowerCase() : '');
+                    tr.setAttribute('data-store', storeKey);
                     tr.setAttribute('data-komentar', item.komentar ? item.komentar.toLowerCase() : '');
                     tr.innerHTML = `
                         <td class="p-2 sm:p-3 text-[11px] text-slate-500 dark:text-slate-400">${item.timestamp || '-'}</td>
@@ -860,7 +877,9 @@
                         });
 
                         const dwRow = document.createElement('tr');
-                        dwRow.className = "border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40";
+                        dwRow.className = "border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 dw-completion-row";
+                        dwRow.setAttribute('data-nama', dwData.nama.toLowerCase());
+                        dwRow.setAttribute('data-store', dwData.store.toLowerCase());
                         dwRow.innerHTML = `
                             <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">${dwIdx++}</td>
                             <td class="p-2 sm:p-3 font-semibold text-slate-900 dark:text-white">${dwData.nama}</td>
@@ -893,7 +912,8 @@
                         });
 
                         const strRow = document.createElement('tr');
-                        strRow.className = "border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40";
+                        strRow.className = "border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 store-summary-row";
+                        strRow.setAttribute('data-store', sName.toLowerCase());
                         strRow.innerHTML = `
                             <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">${idx++}</td>
                             <td class="p-2 sm:p-3 font-semibold text-slate-900 dark:text-white">${sName}</td>
@@ -932,9 +952,93 @@
 
             renderChart([countDigix, countActivation, countIphone, countRpDigix, countUsher, countAcc, countActUnit]);
             renderCompletionChart(totalUniqueStaffCount, total);
+
+            // Re-apply filter jika ada kata kunci pada spotlight
+            applyGlobalStoreFilter();
         }
 
-        // Fungsi Render Bar Chart Performa Kategori dengan Penamaan Label Sesuai Google Data
+        // SPOTLIGHT GLOBAL STORE SEARCH
+        function applyGlobalStoreFilter() {
+            const query = document.getElementById('globalStoreSpotlight').value.toLowerCase().trim();
+
+            // 1. Filter Tabel Kelengkapan DW
+            const dwRows = document.querySelectorAll('#dwCompletionTableBody tr.dw-completion-row');
+            dwRows.forEach(row => {
+                const store = row.getAttribute('data-store') || '';
+                const nama = row.getAttribute('data-nama') || '';
+                if (!query || store.includes(query) || nama.includes(query)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+
+            // 2. Filter Tabel Ringkasan Store
+            const storeRows = document.querySelectorAll('#storeSummaryTableBody tr.store-summary-row');
+            storeRows.forEach(row => {
+                const store = row.getAttribute('data-store') || '';
+                if (!query || store.includes(query)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+
+            // 3. Sync dengan Dropdown & Filter Tabel Detail
+            const select = document.getElementById('filterStoreSelect');
+            if (select) {
+                let matchFound = false;
+                for (let option of select.options) {
+                    if (query && option.value.includes(query)) {
+                        select.value = option.value;
+                        matchFound = true;
+                        break;
+                    }
+                }
+                if (!matchFound && !query) {
+                    select.value = "";
+                }
+            }
+            filterTableByStaff();
+        }
+
+        function clearGlobalStoreFilter() {
+            document.getElementById('globalStoreSpotlight').value = "";
+            applyGlobalStoreFilter();
+        }
+
+        // FILTER SPECIFIC TABEL KELENGKAPAN DW
+        function filterDWCompletionTable() {
+            const input = document.getElementById('searchDWCompletionInput').value.toLowerCase().trim();
+            const rows = document.querySelectorAll('#dwCompletionTableBody tr.dw-completion-row');
+
+            rows.forEach(row => {
+                const nama = row.getAttribute('data-nama') || '';
+                const store = row.getAttribute('data-store') || '';
+                if (!input || nama.includes(input) || store.includes(input)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        // FILTER SPECIFIC TABEL RINGKASAN STORE
+        function filterStoreSummaryTable() {
+            const input = document.getElementById('searchStoreSummaryInput').value.toLowerCase().trim();
+            const rows = document.querySelectorAll('#storeSummaryTableBody tr.store-summary-row');
+
+            rows.forEach(row => {
+                const store = row.getAttribute('data-store') || '';
+                if (!input || store.includes(input)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        // Render Bar Chart
         function renderChart(dataValues) {
             const canvas = document.getElementById('summaryChart');
             if (!canvas) return;
@@ -1009,7 +1113,7 @@
             });
         }
 
-        // Fungsi Render Doughnut Chart Persentase Kelengkapan Ceklis DW dengan Angka
+        // Render Doughnut Chart
         function renderCompletionChart(uniqueDW, actualChecklist) {
             const canvas = document.getElementById('completionChart');
             if (!canvas) return;
@@ -1084,21 +1188,23 @@
             });
         }
 
-        // Fungsi Filter Tabel Berdasarkan Store & Nama Staff
+        // Filter Tabel Detail
         function filterTableByStaff() {
             const selectedStore = document.getElementById('filterStoreSelect').value.toLowerCase();
             const input = document.getElementById('searchStaffInput').value.toLowerCase();
+            const spotlightQuery = document.getElementById('globalStoreSpotlight').value.toLowerCase().trim();
             const rows = document.querySelectorAll('#reportTableBody tr.table-row-item');
 
             rows.forEach(row => {
-                const store = row.getAttribute('data-store');
-                const nama = row.getAttribute('data-nama');
-                const komentar = row.getAttribute('data-komentar');
+                const store = row.getAttribute('data-store') || '';
+                const nama = row.getAttribute('data-nama') || '';
+                const komentar = row.getAttribute('data-komentar') || '';
 
-                const matchStore = !selectedStore || store.includes(selectedStore);
+                const matchSelectStore = !selectedStore || store.includes(selectedStore);
+                const matchSpotlightStore = !spotlightQuery || store.includes(spotlightQuery);
                 const matchText = !input || nama.includes(input) || komentar.includes(input);
 
-                if (matchStore && matchText) {
+                if (matchSelectStore && matchSpotlightStore && matchText) {
                     row.style.display = "";
                 } else {
                     row.style.display = "none";
