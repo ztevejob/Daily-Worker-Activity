@@ -211,11 +211,10 @@
                                 <th class="p-2 sm:p-3 w-12 text-center">No</th>
                                 <th class="p-2 sm:p-3">Nama / Kode Store</th>
                                 <th class="p-2 sm:p-3 text-center">Jumlah DW Ditraining</th>
-                                <th class="p-2 sm:p-3 text-center">Total Ceklis Terisi</th>
                             </tr>
                         </thead>
                         <tbody id="storeSummaryTableBody" class="divide-y divide-slate-200 dark:divide-slate-800 text-slate-800 dark:text-slate-200">
-                            <tr><td colspan="4" class="p-4 text-center text-slate-500">Belum ada data store.</td></tr>
+                            <tr><td colspan="3" class="p-4 text-center text-slate-500">Belum ada data store.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -265,11 +264,42 @@
                     </div>
                 </div>
 
-                <!-- Grafik / Chart Container -->
-                <div class="bg-slate-50 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 rounded-xl p-4 sm:p-6 mt-4">
-                    <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4" data-i18n="chartTitle">Grafik Performa Kategori Pelatihan</h4>
-                    <div class="relative h-64 sm:h-80 w-full">
-                        <canvas id="summaryChart"></canvas>
+                <!-- Section Visualisasi Chart Dua Kolom -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+                    <!-- 1. Grafik Performa Kategori (Bar Chart) -->
+                    <div class="lg:col-span-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 rounded-xl p-4 sm:p-6">
+                        <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4" data-i18n="chartTitle">Grafik Performa Kategori Pelatihan</h4>
+                        <div class="relative h-64 sm:h-80 w-full">
+                            <canvas id="summaryChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 2. Chart Kelengkapan Ceklis DW (Doughnut Chart) -->
+                    <div class="bg-slate-50 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 rounded-xl p-4 sm:p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start gap-2 mb-2">
+                                <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-200">🎯 Kelengkapan Ceklis DW</h4>
+                                <span id="completionBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 border border-amber-500/30">0% Sisa</span>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Setiap 1 DW idealnya memperoleh 7 poin ceklis.</p>
+                        </div>
+                        <div class="relative h-56 w-full flex items-center justify-center">
+                            <canvas id="completionChart"></canvas>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-300 space-y-1">
+                            <div class="flex justify-between">
+                                <span>Target Total Ceklis:</span>
+                                <span id="targetChecklistVal" class="font-bold text-slate-900 dark:text-white">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Ceklis Selesai:</span>
+                                <span id="actualChecklistVal" class="font-bold text-emerald-500">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Sisa Dibutuhkan:</span>
+                                <span id="pendingChecklistVal" class="font-bold text-rose-500">0</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -330,6 +360,7 @@
         let storeSummaryData = [];
         let currentLang = 'id';
         let summaryChartInstance = null;
+        let completionChartInstance = null;
 
         // Kamus Bahasa (ID & EN)
         const dict = {
@@ -659,7 +690,7 @@
 
             if (total === 0) {
                 tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-500">Basis data kosong atau tidak ditemukan data pelaporan.</td></tr>`;
-                if (storeSummaryTbody) storeSummaryTbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-500">Belum ada data store.</td></tr>`;
+                if (storeSummaryTbody) storeSummaryTbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-slate-500">Belum ada data store.</td></tr>`;
             } else {
                 sheetData.forEach(item => {
                     const kat = item.kategori ? item.kategori.trim() : '';
@@ -712,7 +743,7 @@
                     tbody.appendChild(tr);
                 });
 
-                // Render Tabel Ringkasan Store
+                // Render Tabel Ringkasan Store (Tanpa Kolom Total Ceklis)
                 if (storeSummaryTbody) {
                     storeSummaryTbody.innerHTML = '';
                     storeSummaryData = [];
@@ -722,8 +753,7 @@
                         storeSummaryData.push({
                             No: idx,
                             Store: sName,
-                            Jumlah_DW_Ditraining: dwCount,
-                            Total_Ceklis: sData.totalCeklis
+                            Jumlah_DW_Ditraining: dwCount
                         });
 
                         const strRow = document.createElement('tr');
@@ -732,7 +762,6 @@
                             <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">${idx++}</td>
                             <td class="p-2 sm:p-3 font-semibold text-slate-900 dark:text-white">${sName}</td>
                             <td class="p-2 sm:p-3 text-center font-bold text-indigo-600 dark:text-indigo-400">${dwCount} Orang</td>
-                            <td class="p-2 sm:p-3 text-center text-slate-700 dark:text-slate-300">${sData.totalCeklis} Poin</td>
                         `;
                         storeSummaryTbody.appendChild(strRow);
                     }
@@ -765,10 +794,12 @@
                 { Kategori: "Total Keseluruhan Ceklis", Total: total }
             ];
 
+            // Render Bar Chart Kategori & Doughnut Chart Kelengkapan Ceklis
             renderChart([countDigix, countActivation, countIphone, countRpDigix, countUsher, countAcc, countActUnit]);
+            renderCompletionChart(totalUniqueStaffCount, total);
         }
 
-        // Fungsi Render Chart.js
+        // Fungsi Render Bar Chart Performa Kategori
         function renderChart(dataValues) {
             const canvas = document.getElementById('summaryChart');
             if (!canvas) return;
@@ -827,6 +858,84 @@
                             grid: { display: false }
                         }
                     }
+                }
+            });
+        }
+
+        // Fungsi Render Doughnut Chart Persentase Kelengkapan Ceklis DW
+        function renderCompletionChart(uniqueDW, actualChecklist) {
+            const canvas = document.getElementById('completionChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#cbd5e1' : '#334155';
+
+            // Tiap 1 DW wajib mendapatkan 7 poin checklist
+            const targetChecklist = uniqueDW * 7;
+            const pendingChecklist = Math.max(0, targetChecklist - actualChecklist);
+            
+            // Hitung Persentase Sisa Kebutuhan
+            const pendingPercentage = targetChecklist > 0 ? ((pendingChecklist / targetChecklist) * 100).toFixed(1) : 0;
+            const completedPercentage = targetChecklist > 0 ? ((actualChecklist / targetChecklist) * 100).toFixed(1) : 0;
+
+            // Update statistik di panel info bawah chart
+            document.getElementById('targetChecklistVal').innerText = targetChecklist + ' Poin';
+            document.getElementById('actualChecklistVal').innerText = actualChecklist + ' Poin (' + completedPercentage + '%)';
+            document.getElementById('pendingChecklistVal').innerText = pendingChecklist + ' Poin (' + pendingPercentage + '%)';
+            
+            const badge = document.getElementById('completionBadge');
+            if (badge) {
+                badge.innerText = `Butuh ${pendingPercentage}% Lagi`;
+                if (pendingChecklist === 0 && targetChecklist > 0) {
+                    badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+                    badge.innerText = "100% Lengkap";
+                } else {
+                    badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 border border-amber-500/30";
+                }
+            }
+
+            if (completionChartInstance) {
+                completionChartInstance.destroy();
+            }
+
+            completionChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ceklis Selesai', 'Sisa Dibutuhkan'],
+                    datasets: [{
+                        data: [actualChecklist, pendingChecklist],
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.85)', // Emerald
+                            'rgba(244, 63, 94, 0.85)'   // Rose
+                        ],
+                        borderColor: isDark ? '#1e293b' : '#ffffff',
+                        borderWidth: 2,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: textColor,
+                                font: { size: 11, family: 'Inter' },
+                                boxWidth: 12
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const val = context.raw || 0;
+                                    const pct = targetChecklist > 0 ? ((val / targetChecklist) * 100).toFixed(1) : 0;
+                                    return ` ${context.label}: ${val} Poin (${pct}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
                 }
             });
         }
