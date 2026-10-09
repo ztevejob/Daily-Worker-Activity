@@ -281,9 +281,40 @@
                 </div>
             </div>
 
-            <!-- SECTION 3 (BAWAH): TABEL RINGKASAN STORE & TABEL DETAIL -->
+            <!-- SECTION 3 (BAWAH): TABEL-TABEL RINGKASAN & DETAIL LAPORAN -->
             <div class="space-y-6">
-                <!-- TABEL RINGKASAN PER STORE -->
+                
+                <!-- 1. TABEL KELENGKAPAN CEKLIS PER INDIVIDU DW -->
+                <div class="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-xl border border-slate-300 dark:border-slate-800 space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <div>
+                            <h3 class="text-sm sm:text-lg font-semibold text-indigo-600 dark:text-indigo-300">📋 Tabel Kelengkapan Ceklis DW</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Rincian status kelengkapan 7 poin ceklis per individu Staff Daily Worker</p>
+                        </div>
+                        <button type="button" onclick="exportDWCompletionExcel()" class="cursor-pointer bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-xl text-xs transition shadow-lg flex items-center gap-1.5">📊 Export DW Completion Excel</button>
+                    </div>
+
+                    <div class="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-xl">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-[10px] sm:text-xs uppercase border-b border-slate-300 dark:border-slate-700">
+                                    <th class="p-2 sm:p-3 w-12 text-center">No</th>
+                                    <th class="p-2 sm:p-3">Nama Staff DW</th>
+                                    <th class="p-2 sm:p-3">Store / Lokasi</th>
+                                    <th class="p-2 sm:p-3 text-center">Ceklis Terisi</th>
+                                    <th class="p-2 sm:p-3 text-center">Target</th>
+                                    <th class="p-2 sm:p-3 text-center">Sisa Kebutuhan</th>
+                                    <th class="p-2 sm:p-3 text-center">Status Kelengkapan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dwCompletionTableBody" class="divide-y divide-slate-200 dark:divide-slate-800 text-slate-800 dark:text-slate-200">
+                                <tr><td colspan="7" class="p-4 text-center text-slate-500">Belum ada data Daily Worker.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 2. TABEL RINGKASAN PER STORE -->
                 <div class="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-xl border border-slate-300 dark:border-slate-800 space-y-4">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                         <div>
@@ -309,7 +340,7 @@
                     </div>
                 </div>
 
-                <!-- TABEL DETAIL LAPORAN & FILTER -->
+                <!-- 3. TABEL DETAIL LAPORAN & FILTER -->
                 <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-300 dark:border-slate-800 space-y-4">
                     <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700 rounded-xl p-3 sm:p-4 space-y-4">
                         
@@ -360,6 +391,7 @@
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzY2OHFWwUK0DhaEdqQAs-xohwdhCSWK66av27dHWKr2D8-HWrJ9Vl7Im8jIMHzAkt3CQ/exec';
         let sheetData = [];
         let storeSummaryData = [];
+        let dwCompletionData = [];
         let currentLang = 'id';
         let summaryChartInstance = null;
         let completionChartInstance = null;
@@ -373,18 +405,16 @@
                     const meta = chart.getDatasetMeta(i);
                     meta.data.forEach((element, index) => {
                         const val = dataset.data[index];
-                        if (val === 0) return; // Sembunyikan jika 0
+                        if (val === 0) return;
 
                         ctx.save();
                         if (chart.config.type === 'bar') {
-                            // Angka di Atas Batang Grafik
                             ctx.fillStyle = document.documentElement.classList.contains('dark') ? '#f8fafc' : '#0f172a';
                             ctx.font = 'bold 11px Inter, sans-serif';
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'bottom';
                             ctx.fillText(val, element.x, element.y - 4);
                         } else if (chart.config.type === 'doughnut') {
-                            // Angka Persentase / Nilai di Dalam Slice Donat
                             const total = dataset.data.reduce((a, b) => a + b, 0);
                             const percentage = total > 0 ? ((val / total) * 100).toFixed(1) + '%' : '';
                             const position = element.tooltipPosition();
@@ -401,7 +431,6 @@
             }
         };
 
-        // Register Plugin ke Chart.js
         Chart.register(chartDataLabelsPlugin);
 
         // Kamus Bahasa (ID & EN)
@@ -714,10 +743,11 @@
 
         let summaryDataObj = {};
 
-        // Perhitungan Toko Melaporkan, Unique DW & Ringkasan Per Store
+        // Perhitungan Toko Melaporkan, Unique DW & Ringkasan Per Store + Individual DW
         function renderDashboard() {
             const tbody = document.getElementById('reportTableBody');
             const storeSummaryTbody = document.getElementById('storeSummaryTableBody');
+            const dwCompletionTbody = document.getElementById('dwCompletionTableBody');
             if (!tbody) return;
             tbody.innerHTML = '';
 
@@ -728,10 +758,12 @@
             const uniqueStaffNames = new Set();
             
             const storeSummaryMap = {};
+            const dwIndividualMap = {}; // Key: namaDW_store, Value: { nama, store, count }
 
             if (total === 0) {
                 tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-500">Basis data kosong atau tidak ditemukan data pelaporan.</td></tr>`;
                 if (storeSummaryTbody) storeSummaryTbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-slate-500">Belum ada data store.</td></tr>`;
+                if (dwCompletionTbody) dwCompletionTbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">Belum ada data Daily Worker.</td></tr>`;
             } else {
                 sheetData.forEach(item => {
                     const kat = item.kategori ? item.kategori.trim() : '';
@@ -754,6 +786,7 @@
                         uniqueStaffNames.add(staffNameRaw.toLowerCase());
                     }
 
+                    // Mapping Per Store
                     if (!storeSummaryMap[storeNameRaw]) {
                         storeSummaryMap[storeNameRaw] = {
                             staffSet: new Set(),
@@ -764,6 +797,17 @@
                         storeSummaryMap[storeNameRaw].staffSet.add(staffNameRaw.toLowerCase());
                     }
                     storeSummaryMap[storeNameRaw].totalCeklis += 1;
+
+                    // Mapping Per Individu DW
+                    const dwKey = staffNameRaw.toLowerCase() + '___' + storeKey;
+                    if (!dwIndividualMap[dwKey]) {
+                        dwIndividualMap[dwKey] = {
+                            nama: staffNameRaw,
+                            store: storeNameRaw,
+                            ceklisCount: 0
+                        };
+                    }
+                    dwIndividualMap[dwKey].ceklisCount += 1;
 
                     const tr = document.createElement('tr');
                     tr.className = "border-b border-slate-200 dark:border-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800/30 table-row-item";
@@ -783,6 +827,49 @@
                     tbody.appendChild(tr);
                 });
 
+                // Render Tabel Kelengkapan Ceklis DW Per Individu
+                if (dwCompletionTbody) {
+                    dwCompletionTbody.innerHTML = '';
+                    dwCompletionData = [];
+                    let dwIdx = 1;
+
+                    for (const [key, dwData] of Object.entries(dwIndividualMap)) {
+                        const terisi = dwData.ceklisCount;
+                        const target = 7;
+                        const sisa = Math.max(0, target - terisi);
+                        const isLengkap = terisi >= target;
+
+                        dwCompletionData.push({
+                            No: dwIdx,
+                            Nama_Staff: dwData.nama,
+                            Store: dwData.store,
+                            Ceklis_Terisi: terisi,
+                            Target: target,
+                            Sisa_Kebutuhan: sisa,
+                            Status: isLengkap ? '100% Lengkap' : `Kurang ${sisa} Ceklis`
+                        });
+
+                        const dwRow = document.createElement('tr');
+                        dwRow.className = "border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40";
+                        dwRow.innerHTML = `
+                            <td class="p-2 sm:p-3 text-center text-slate-500 dark:text-slate-400">${dwIdx++}</td>
+                            <td class="p-2 sm:p-3 font-semibold text-slate-900 dark:text-white">${dwData.nama}</td>
+                            <td class="p-2 sm:p-3 text-slate-700 dark:text-slate-300 text-xs">${dwData.store}</td>
+                            <td class="p-2 sm:p-3 text-center font-bold text-indigo-600 dark:text-indigo-400">${terisi} / ${target}</td>
+                            <td class="p-2 sm:p-3 text-center text-slate-500">${target}</td>
+                            <td class="p-2 sm:p-3 text-center font-bold ${sisa === 0 ? 'text-slate-400' : 'text-rose-500'}">${sisa} Poin</td>
+                            <td class="p-2 sm:p-3 text-center">
+                                ${isLengkap 
+                                    ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">100% Lengkap</span>` 
+                                    : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-500 border border-amber-500/30">Kurang ${sisa} Ceklis</span>`
+                                }
+                            </td>
+                        `;
+                        dwCompletionTbody.appendChild(dwRow);
+                    }
+                }
+
+                // Render Tabel Ringkasan Store
                 if (storeSummaryTbody) {
                     storeSummaryTbody.innerHTML = '';
                     storeSummaryData = [];
@@ -890,7 +977,7 @@
                             beginAtZero: true,
                             ticks: { color: textColor, precision: 0 },
                             grid: { color: gridColor },
-                            grace: '10%' // Memberikan ruang di atas batang chart untuk angka
+                            grace: '10%'
                         },
                         x: {
                             ticks: { color: textColor },
@@ -1032,6 +1119,18 @@
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Ringkasan Store");
             XLSX.writeFile(workbook, "Ringkasan_Store_Daily_Worker.xlsx");
+        }
+
+        // Export Excel Kelengkapan DW Individual
+        function exportDWCompletionExcel() {
+            if (!dwCompletionData || dwCompletionData.length === 0) {
+                alert('Belum ada data kelengkapan DW untuk diexport!');
+                return;
+            }
+            const worksheet = XLSX.utils.json_to_sheet(dwCompletionData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Kelengkapan DW");
+            XLSX.writeFile(workbook, "Kelengkapan_Ceklis_Daily_Worker.xlsx");
         }
     </script>
 </body>
